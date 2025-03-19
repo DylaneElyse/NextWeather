@@ -1,9 +1,11 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
 export default function AboutScreen() {
   return (
     <View style={styles.container}>
+      <Header />
       <Text style={styles.text}>Search Screen</Text>
     </View>
   );
