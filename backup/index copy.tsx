@@ -1,34 +1,37 @@
+// import { Link } from "expo-router";
+// import React from "react";
+// import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+// // import { signInWithGoogle, logOut } from "./firebase-config";
+// // import { auth, provider, signInWithPopup, signOut } from "./firebase-config";
+// import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+
 import { Link } from "expo-router";
 import React from "react";
 import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
 import { getAuth, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { app } from "./firebase-config"; // Ensure Firebase is initialized here
+import { app } from "./firebase-config";
 
-WebBrowser.maybeCompleteAuthSession(); // Required for web-based auth
+WebBrowser.maybeCompleteAuthSession();
 
 const auth = getAuth(app);
-// console.log("Redirect URI:", "https://auth.expo.io/@your-username/your-app-slug");
+const provider = new GoogleAuthProvider();
+
 export default function LandingScreen() {
-  const [loggedIn, setLoggedIn] = React.useState(false);
   const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: "905773755451-6s6rcir6f4sbdedmlpgvmf5rq9mhi3pp.apps.googleusercontent.com", // From Google Cloud Console
-    // iosClientId: "YOUR_IOS_CLIENT_ID", // For iOS (optional)
-    // androidClientId: "905773755451-74j08s4vhncd58lk35tq86mes4nhmaba.apps.googleusercontent.com", // For Android (optional)
-    redirectUri: "https://auth.expo.io/madhowie/nextweather", // Ensure this is set in the Google Cloud Console for your project
-    
+    expoClientId: "YOUR_EXPO_CLIENT_ID", // From Google Cloud Console
+    iosClientId: "YOUR_IOS_CLIENT_ID", // For iOS (optional)
+    androidClientId: "YOUR_ANDROID_CLIENT_ID", // For Android (optional)
   });
 
   React.useEffect(() => {
-    console.log("Response:", response);
     if (response?.type === "success") {
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential)
         .then((result) => {
           console.log("User signed in:", result.user);
-          setLoggedIn(true);
         })
         .catch((error) => {
           console.error("Error signing in:", error);
@@ -36,11 +39,47 @@ export default function LandingScreen() {
     }
   }, [response]);
 
+// export const signInWithGoogle = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider);
+//     console.log(result.user); // User info
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+export const logOut = async () => {
+  try {
+    await signOut(auth);
+    console.log("User signed out");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
+// export default function LandingScreen() {
+  // console.log("Styles", styles.text, styles.loginText);
+
+
+//   return (
+//     <View style={styles.container}>
+//       <Image source={require('../assets/nextWeatherLogo.png')} style={styles.logo} />
+//       <Link href="/(tabs)">
+//       <View style={styles.linkContainer}>
+//       <Text style={styles.loginText}>Login with Google</Text>
+//       <Image source={require('../assets/google-icon-logo.png')} style={styles.googleIcon} />
+//       </View>
+//       </Link>
+//     </View>
+//   );
+// }
+
+export default function LandingScreen() {
   return (
     <View style={styles.container}>
-      {loggedIn ? (<Text>You are logged in</Text>) : (<Text>You are not logged in</Text>)}
       <Image source={require('../assets/nextWeatherLogo.png')} style={styles.logo} />
-      <TouchableOpacity onPress={() => promptAsync()} disabled={!request}>
+      <TouchableOpacity onPress={signInWithGoogle}>
         <View style={styles.linkContainer}>
           <Text style={styles.loginText}>Login with Google</Text>
           <Image source={require('../assets/google-icon-logo.png')} style={styles.googleIcon} />
