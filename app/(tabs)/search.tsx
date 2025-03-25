@@ -1,12 +1,22 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import Header from "../../components/header";
+import { router } from "expo-router";
 
 export default function SearchScreen() {
+
+  const handleNavigate = () => {
+    router.push({
+      pathname: "/",
+      params: { city: "Tokyo" },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Header />
       <Text style={styles.text}>Search Screen</Text>
+      <Button title="Go to Home" onPress={handleNavigate} />
     </View>
   );
 }

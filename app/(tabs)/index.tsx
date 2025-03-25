@@ -4,11 +4,13 @@ import CityHeader from "../../components/CityHeader";
 import CurrentWeatherOverview from "../../components/currentWeatherOverview";
 import ThreeHourForecastAPI from "../../components/ThreeHourForecastAPI";
 import FiveDaysForecastLabel from "../../components/FiveDaysForecastAPI";
-import searchableCities from "../../assets/seachableCities.json";
+import { useLocalSearchParams } from "expo-router";
+import searchableCities from "../../assets/seachableCities";
 
 export default function HomeScreen() {
   const[temperatureUnit, setTemperatureUnit] = useState<boolean>(true);
   const[temperatureUnitLetter, setTemperatureUnitLetter]=useState<string>("°C");
+  const { city } = useLocalSearchParams();
 
   const toggleTemperatureUnit = () => {
     setTemperatureUnit(!temperatureUnit);
@@ -21,6 +23,7 @@ export default function HomeScreen() {
       {/*Yet to transform it into a component*/}
       <View style={styles.persistentHeader}>
         <View style={{justifyContent: "flex-start", flexDirection: "row", alignItems: "center", marginRight: 250}}>
+          <Text>Selected City: {city || "No city selected"}</Text>
           {/*Yet to implement a responsive space adjustment between the two icons above.*/}
           <Image
           source={require('../../assets/nextWeatherLogo.png')}
