@@ -1,35 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { useTemperature } from "../contexts/TemperatureContext";
 
-/**
- * CallAPI Component
- * Purpose: Fetches and displays weather forecast from OpenWeatherMap API
- * Features: Loading states, error handling, data display
- */
 const CallAPI: React.FC = () => {
-  // State management for API data and UI states
   const [data, setData] = useState<any[]>([]); // Array to store weather data
-  const [loading, setLoading] = useState<boolean>(true); // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track any errors
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
 
   let { searchedCity } = useLocalSearchParams();
   if (searchedCity == undefined){
     searchedCity = "Calgary";
   }
 
-  /**
-   * fetchData Function
-   * Purpose: Fetch posts from JSONPlaceholder API
-   * Returns: Promise<void>
-   */
   const fetchData = async () => {
     try {
+        let response;
       // Make HTTP GET request to fetch all posts
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts${process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY}`
+      {temperatureUnit ? (
+        // if temperatureUnit is Celsius:
+      response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=${process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY}&units=metric`
         // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
-      );
+      )) : (
+        // if temperatureUnit is Farenheit:
+        response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&appid=${process.env.EXPO_PUBLIC_OPENWEATHER_API_KEY}&units=imperial`
+        // https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+      ))}
 
       // Check if the response was successful
       if (!response.ok) {

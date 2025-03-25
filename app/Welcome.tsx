@@ -4,6 +4,7 @@ import Header from "../components/header";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { supabase } from "../lib/supabase";
+import { red } from "react-native-reanimated/lib/typescript/Colors";
 
 export default function WelcomeScreen() {
   const { user, signOut } = useAuth();
@@ -43,12 +44,12 @@ export default function WelcomeScreen() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.text}>Home Screen</Text>
-      <Text>Welcome, {user?.email}</Text>
-      <Text>Username: {username}</Text>
-      <Text>User ID: {user?.id}</Text>
+      <Text style={{fontSize: 30, fontWeight: "bold", marginBottom: 80}}>Welcome, {username}</Text>
+      <Text>Email: {user?.email}</Text>
+      <Text style={{marginBottom: 200}}>User ID: {user?.id}</Text>
       <Button title="Continue" onPress={handleContinueToHomepage} />
-      <Button title="Sign Out" onPress={handleSignOut} />
+      <View style={{marginTop: 50}}></View>
+      <Button title="Sign Out" onPress={handleSignOut} color={"red"}/>
     </View>
   );
 }

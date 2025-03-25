@@ -26,7 +26,6 @@ export default function TabLayout() {
             }
             return <Image source={iconName} style={{ width: 24, height: 24 }} />;
           },
-          // Optional: Add consistent tab bar styling
           tabBarActiveTintColor: "#000000",
           tabBarInactiveTintColor: "#808080",
           tabBarStyle: {
