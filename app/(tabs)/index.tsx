@@ -11,6 +11,8 @@ export default function HomeScreen() {
   const[temperatureUnit, setTemperatureUnit] = useState<boolean>(true);
   const[temperatureUnitLetter, setTemperatureUnitLetter]=useState<string>("°C");
   const { city } = useLocalSearchParams();
+  const[cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = useState<any[]>([]);
+  const[cityThreeHourWeatherData, setThreeHourWeatherData] = useState<any[]>([]);
 
   const toggleTemperatureUnit = () => {
     setTemperatureUnit(!temperatureUnit);
@@ -34,7 +36,7 @@ export default function HomeScreen() {
         <View style={{justifyContent: "flex-end"}}>
           <TouchableOpacity
           onPress={toggleTemperatureUnit}>
-            {temperatureUnit ? 
+            {temperatureUnit ?  
             <View style={styles.toggleContainer}>
               <Image
               source={require('../../assets/toggle/temperatureToggleC.png')}
