@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
 import CurrentWeatherOverview from "../../components/currentWeatherOverview";
 import ThreeHourForecastAPI from "../../components/ThreeHourForecastAPI";
 import FiveDaysForecastLabel from "../../components/FiveDaysForecastAPI";
 import { useLocalSearchParams } from "expo-router";
-import searchableCities from "../../assets/seachableCities";
+import { useTemperature } from "../../contexts/TemperatureContext";
 
 export default function HomeScreen() {
-  const[temperatureUnit, setTemperatureUnit] = useState<boolean>(true);
-  const[temperatureUnitLetter, setTemperatureUnitLetter]=useState<string>("°C");
-  const { city } = useLocalSearchParams();
-  const[cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = useState<any[]>([]);
-  const[cityThreeHourWeatherData, setThreeHourWeatherData] = useState<any[]>([]);
+  const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
+  const [cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = React.useState<any[]>([]);
+  const [cityThreeHourWeatherData, setThreeHourWeatherData] = React.useState<any[]>([]);
 
-  const toggleTemperatureUnit = () => {
-    setTemperatureUnit(!temperatureUnit);
-    setTemperatureUnitLetter(temperatureUnit ? "°F" : "°C");
-};
+  let { searchedCity } = useLocalSearchParams();
+  if (searchedCity == undefined) {
+    searchedCity = "Calgary";
+  }
 
   return (
     <View style={styles.container}>
-
-      {/*Yet to transform it into a component*/}
       <View style={styles.persistentHeader}>
+        {/* ... rest of your header code ... */}
         <View style={{justifyContent: "flex-start", flexDirection: "row", alignItems: "center", marginRight: 250}}>
-          <Text>Selected City: {city || "No city selected"}</Text>
+          {/* <Text>Selected City: {searchedCity || "No city selected"}</Text> */}
           {/*Yet to implement a responsive space adjustment between the two icons above.*/}
           <Image
           source={require('../../assets/nextWeatherLogo.png')}
@@ -34,29 +31,29 @@ export default function HomeScreen() {
           <Text>NextWeather</Text>
         </View>
         <View style={{justifyContent: "flex-end"}}>
-          <TouchableOpacity
-          onPress={toggleTemperatureUnit}>
-            {temperatureUnit ?  
+        <TouchableOpacity onPress={toggleTemperatureUnit}>
+          {temperatureUnit ? (
             <View style={styles.toggleContainer}>
               <Image
-              source={require('../../assets/toggle/temperatureToggleC.png')}
-              alt="Celsius"
-              style={styles.toggleImage}/>
+                source={require('../../assets/toggle/temperatureToggleC.png')}
+                alt="Celsius"
+                style={styles.toggleImage}
+              />
               <Text>°C</Text>
             </View>
-            :
+          ) : (
             <View style={styles.toggleContainer}>
               <Image
-              source={require('../../assets/toggle/temperatureToggleF.png')}
-              alt="Fahrenheit"
-              style={styles.toggleImage}/>
+                source={require('../../assets/toggle/temperatureToggleF.png')}
+                alt="Fahrenheit"
+                style={styles.toggleImage}
+              />
               <Text>°F</Text>
             </View>
-            }
-          </TouchableOpacity>
-        </View>
+          )}
+        </TouchableOpacity>
       </View>
-
+    </View>
 
       {/* Yet to implement API call*/}
       <CityHeader 

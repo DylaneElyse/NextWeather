@@ -8,7 +8,7 @@ export default function SearchScreen() {
   const handleNavigate = () => {
     router.push({
       pathname: "/",
-      params: { city: "Tokyo" },
+      params: { searchedCity: "Calgary" },
     });
   };
 
