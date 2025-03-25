@@ -1,0 +1,16 @@
+// app.tsx
+import { Slot } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { View } from 'react-native';
+// import { AuthProvider } from './authContext';
+
+export default function App() {
+  return (
+    // <AuthProvider>
+    <View style={{ flex: 1 }}>
+      <StatusBar style="auto" />
+      <Slot /> {/* This renders the matched route from app/ */}
+    </View>
+    // </AuthProvider>
+  );
+}

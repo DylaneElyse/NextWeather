@@ -11,16 +11,16 @@ export default function TabLayout() {
           let iconName;
           if (route.name === "index") {
             iconName = focused
-              ? require("../../assets/home-dark.png")
-              : require("../../assets/home-grey.png");
+              ? require("../../../assets/home-dark.png")
+              : require("../../../assets/home-grey.png");
           } else if (route.name === "search") {
             iconName = focused
-              ? require("../../assets/search-dark.png")
-              : require("../../assets/search-grey.png");
+              ? require("../../../assets/search-dark.png")
+              : require("../../../assets/search-grey.png");
           } else if (route.name === "favorites") {
             iconName = focused
-              ? require("../../assets/star-dark.png")
-              : require("../../assets/star-grey.png");
+              ? require("../../../assets/star-dark.png")
+              : require("../../../assets/star-grey.png");
           }
           return <Image source={iconName} style={{ width: 24, height: 24 }} />;
         },
