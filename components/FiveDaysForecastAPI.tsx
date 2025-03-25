@@ -18,8 +18,8 @@ export default function FiveDaysForecastLabel (
     return(
         <View style={styles.container}>
             <Text style={styles.date}>{date}</Text>
-            <Text style={styles.maxTemperature}>{maxTemperature} {temperatureUnit}</Text>
-            <Text style={styles.minTemperature}>{minTemperature} {temperatureUnit}</Text>
+            <Text style={styles.maxTemperature}>{maxTemperature}{temperatureUnit}</Text>
+            <Text style={styles.minTemperature}>{minTemperature}{temperatureUnit}</Text>
         </View>
     )
 }

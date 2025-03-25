@@ -50,7 +50,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
       Alert.alert('Registration Error', error);
     }
     else {
-      router.push('HomeScreen');
+      router.push('Welcome');
     }
   };
 
@@ -99,7 +99,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
       
       <View style={styles.footer}>
         <Text style={styles.footerText}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => router.push('LoginScreen')}>
+        <TouchableOpacity onPress={() => router.push('LandingScreen')}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>

@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { supabase } from "../lib/supabase";
 
-export default function HomeScreen() {
+export default function WelcomeScreen() {
   const { user, signOut } = useAuth();
   const router = useRouter();
   // const [username, setUsername] = React.useState("");
@@ -13,7 +13,11 @@ export default function HomeScreen() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.replace('/LoginScreen'); // 🔥 Redirect to login after signing out
+    router.replace('/LandingScreen'); // 🔥 Redirect to login after signing out
+  };
+
+  const handleContinueToHomepage = async () => {
+    router.replace('/(tabs)/'); // 🔥 Redirect to login after signing out
   };
 
   useEffect(() => {
@@ -43,6 +47,7 @@ export default function HomeScreen() {
       <Text>Welcome, {user?.email}</Text>
       <Text>Username: {username}</Text>
       <Text>User ID: {user?.id}</Text>
+      <Button title="Continue" onPress={handleContinueToHomepage} />
       <Button title="Sign Out" onPress={handleSignOut} />
     </View>
   );

@@ -43,7 +43,7 @@ const LoginScreen: React.FC<Props> = () => {
       Alert.alert('Login Error', error);
     }
     else {
-      router.push('HomeScreen');
+      router.push('Welcome');
     }
   };
 
