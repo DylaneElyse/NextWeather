@@ -82,7 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           .from('user_details')
           .insert({
             uuid: user.id,
-            First_Name: profileData.username,
+            Username: profileData.username,
             Email: email,
           });
 
