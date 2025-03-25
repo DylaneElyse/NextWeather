@@ -4,7 +4,7 @@ import { RootStackParamList } from '../types/types';
 import LandingScreen from './LandingScreen';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
-import HomeScreen from './HomeScreen';
+import WelcomeScreen from './Welcome';
 import { useAuth } from '../contexts/AuthContext';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -18,7 +18,7 @@ export default function RootNavigator() {
       screenOptions={{ headerShown: false }}
     >
       {user ? (
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={WelcomeScreen} />
       ) : (
         <>
           <Stack.Screen name="Landing" component={LandingScreen} />

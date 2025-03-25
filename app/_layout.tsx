@@ -9,7 +9,7 @@ export default function RootLayout() {
       <Stack.Screen name="LandingScreen" options={{ headerShown: false }} />
       <Stack.Screen name="LoginScreen" options={{ title: 'Sign In' }} />
       <Stack.Screen name="RegisterScreen" options={{ title: 'Create Account' }} />
-      <Stack.Screen name="HomeScreen" options={{ headerShown: false }} />
+      <Stack.Screen name="Welcome" options={{ headerShown: false }} />
     </Stack>
     </AuthProvider>
   );
