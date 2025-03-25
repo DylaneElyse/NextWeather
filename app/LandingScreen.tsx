@@ -13,7 +13,7 @@ interface Props {
   navigation: LandingScreenNavigationProp;
 }
 
-export default function LandingScreen({ navigation }: Props) {
+export default function LandingScreen() {
   return (
     <View style={styles.container}>
       {/* App Logo/Header */}
