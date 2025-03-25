@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import Header from "../../../components/header";
+import Header from "../../components/header";
 
-export default function SearchScreen() {
+export default function FavoritesScreen() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.text}>Search Screen</Text>
+      <Text style={styles.text}>Favorites Screen</Text>
     </View>
   );
 }

@@ -1,12 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import Header from "../../../components/header";
+import { Text, View, StyleSheet, Image, Dimensions } from "react-native";
+import Header from "../../components/header";
 
-export default function FavoritesScreen() {
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.text}>Favorites Screen</Text>
+      <Text style={styles.text}>Home Screen</Text>
     </View>
   );
 }
