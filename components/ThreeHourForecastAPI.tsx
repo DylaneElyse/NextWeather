@@ -17,7 +17,7 @@ export default function ThreeHoursForecastLabel (
     return(
         <View style={styles.container}>
             <Text style={styles.time}>{hour}</Text>
-            <Text style={styles.temperature}>{avgTemperature} {temperatureUnit}</Text>
+            <Text style={styles.temperature}>{avgTemperature}{temperatureUnit}</Text>
         </View>
     )
 }
@@ -27,9 +27,10 @@ export default function ThreeHoursForecastLabel (
             display: "flex",
             flexDirection: "column",
             marginLeft: 10,
+            justifyContent: "space-between",
         },
         time: {
-            fontSize: 8,
+            fontSize: 15,
         },
         temperature: {
             fontSize: 15,

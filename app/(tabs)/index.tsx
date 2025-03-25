@@ -18,8 +18,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
 
+      {/*Yet to transform it into a component*/}
       <View style={styles.persistentHeader}>
-        <View style={{justifyContent: "flex-start", flexDirection: "row", alignItems: "center"}}>
+        <View style={{justifyContent: "flex-start", flexDirection: "row", alignItems: "center", marginRight: 250}}>
+          {/*Yet to implement a responsive space adjustment between the two icons above.*/}
           <Image
           source={require('../../assets/nextWeatherLogo.png')}
           alt="NextWeather logo"
@@ -145,21 +147,29 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   header:{
-    fontSize: 10,
+    fontSize: 30,
+    marginTop: 20,
+    marginBottom: -5,
   },
   containerThreeHourForecast: {
     display: "flex",
     flexDirection: "row",
-    width: 200,
     flexGrow: 1,
     marginTop: 10,
+    backgroundColor: "#E2F4FF",
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   containerFiveDaysForecast: {
     display: "flex",
     flexDirection: "row",
-    width: 200,
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "90%",
     flexGrow: 1,
     marginTop: 10,
+    backgroundColor: "#E2F4FF",
   },
   persistentHeader:{
     display: "flex",
