@@ -13,7 +13,6 @@ interface currentWeatherOverviewProps {
 }
 
 const DisplayWeatherIcon = ({weatherDescription}: {weatherDescription: string}) => {
-  // Use require() for local images and ensure paths are correct
   switch (weatherDescription) {
     case "clear sky":
       return (
@@ -76,7 +75,7 @@ export default function CurrentWeatherOverview ({ weatherDescription, minTempera
           <DisplayWeatherIcon weatherDescription={weatherDescription}/>
       </View>
       <View style={styles.innerContainer}>
-          <Text style={styles.minMaxTemperature}>{minTemperature} °{temperatureUnit}/{maxTemperature} °{temperatureUnit}</Text>
+          <Text style={styles.minMaxTemperature}>{minTemperature} {temperatureUnit}/{maxTemperature} {temperatureUnit}</Text>
       </View>
     </View>
     );

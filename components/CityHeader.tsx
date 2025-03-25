@@ -15,7 +15,7 @@ export default function CityHeader({city, temperature, temperatureUnit}: CityHea
     <View>
       <View style={styles.container}>
           <Text style={styles.cityNameText}>{city}</Text>
-          <Text style={styles.cityTemperatureText}>{temperature} °{temperatureUnit}</Text>
+          <Text style={styles.cityTemperatureText}>{temperature} {temperatureUnit}</Text>
       </View>
     </View>
 
