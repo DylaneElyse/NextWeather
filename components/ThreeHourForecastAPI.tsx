@@ -27,7 +27,6 @@ export default function ThreeHoursForecastLabel (
             display: "flex",
             flexDirection: "column",
             marginLeft: 10,
-            justifyContent: "space-between",
         },
         time: {
             fontSize: 15,
