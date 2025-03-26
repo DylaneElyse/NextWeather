@@ -5,7 +5,6 @@ import { router } from "expo-router";
 // import { TextInput } from "react-native-gesture-handler";
 
 export default function SearchScreen() {
-
   const handleNavigate = () => {
     router.push({
       pathname: "/",
@@ -14,26 +13,33 @@ export default function SearchScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.pageContainer}>
       <Header />
-      <View style={styles.searchBox}>
-      <TextInput 
-        style={styles.input}
-        placeholder="Search for a city" />
-      <Button title="Search" onPress={() => {}} />
+      <View style={styles.container}>
+        <View style={styles.searchBox}>
+          <TextInput style={styles.input} placeholder="Search for a city" />
+          <Button title="Search" onPress={() => {}} />
+        </View>
+        <Text style={styles.text}>Search Screen</Text>
       </View>
-      <Text style={styles.text}>Search Screen</Text>
-      <Button title="Go to Home" onPress={handleNavigate} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: "#c2e8ff",
+    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 150, // Push content down
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#c2e8ff",
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     color: "#fff",
