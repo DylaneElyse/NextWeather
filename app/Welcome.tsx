@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Image, Dimensions, Button } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Button,
+} from "react-native";
 import Header from "../components/header";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "expo-router";
@@ -14,11 +21,11 @@ export default function WelcomeScreen() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.replace('/LandingScreen'); // 🔥 Redirect to login after signing out
+    router.replace("/LandingScreen"); // 🔥 Redirect to login after signing out
   };
 
   const handleContinueToHomepage = async () => {
-    router.replace('/(tabs)/');
+    router.replace("/(tabs)/");
   };
 
   useEffect(() => {
@@ -40,23 +47,35 @@ export default function WelcomeScreen() {
 
     fetchUserProfile();
   }, [user]);
-  
+
   return (
-    <View style={styles.container}>
+    <View style={styles.pageContainer}>
       <Header />
-      <Text style={{fontSize: 30, fontWeight: "bold", marginBottom: 80}}>Welcome, {username}</Text>
-      <Text>Email: {user?.email}</Text>
-      <Text style={{marginBottom: 200}}>User ID: {user?.id}</Text>
-      <Button title="Continue" onPress={handleContinueToHomepage} />
-      <View style={{marginTop: 50}}></View>
-      <Button title="Sign Out" onPress={handleSignOut} color={"red"}/>
+      <View style={styles.container}>
+        {/* <Text style={{ fontSize: 30, fontWeight: "bold", marginBottom: 80 }}>
+          Welcome, {username}
+        </Text>
+        <Text>Email: {user?.email}</Text>
+        <Text style={{ marginBottom: 200 }}>User ID: {user?.id}</Text> */}
+        <Button title="Continue" onPress={handleContinueToHomepage} />
+        <View style={{ marginTop: 50 }}></View>
+        <Button title="Sign Out" onPress={handleSignOut} color={"red"} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#c2e8ff",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: "#c2e8ff",
     justifyContent: "center",
     alignItems: "center",

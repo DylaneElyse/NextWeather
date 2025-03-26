@@ -9,23 +9,36 @@ export default function FavoritesScreen() {
 
   if (!user) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>Please log in to view favorites.</Text>
+      <View style={styles.pageContainer}>
+        <Header />
+        <View style={styles.container}>
+          <Text style={styles.text}>Please log in to view favorites.</Text>
+        </View>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.pageContainer}>
       <Header />
-      <Text style={styles.text}>Favorites Screen</Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>Favorites Screen</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#c2e8ff",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: "#c2e8ff",
     justifyContent: "center",
     alignItems: "center",

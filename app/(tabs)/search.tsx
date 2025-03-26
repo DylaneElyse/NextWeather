@@ -48,7 +48,7 @@ export default function SearchScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.pageContainer}>
       <Header />
       <View style={styles.searchBox}>
       <TextInput 
@@ -80,11 +80,19 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: "#c2e8ff",
+    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: 150, // Push content down
+  },
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#c2e8ff",
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     color: "#fff",

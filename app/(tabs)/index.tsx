@@ -6,6 +6,7 @@ import ThreeHourForecastAPI from "../../components/ThreeHourForecastAPI";
 import FiveDaysForecastLabel from "../../components/FiveDaysForecastAPI";
 import { useLocalSearchParams } from "expo-router";
 import { useTemperature } from "../../contexts/TemperatureContext";
+import Header from "../../components/header";
 
 export default function HomeScreen() {
   const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } =
@@ -23,130 +24,96 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.persistentHeader}>
-        {/* ... rest of your header code ... */}
-        <View
-          style={{
-            justifyContent: "flex-start",
-            flexDirection: "row",
-            alignItems: "center",
-            // marginRight: 250,
-          }}
-        >
-          {/* <Text>Selected City: {searchedCity || "No city selected"}</Text> */}
-          {/*Yet to implement a responsive space adjustment between the two icons above.*/}
-          <Image
-            source={require("../../assets/nextWeatherLogo.png")}
-            alt="NextWeather logo"
-            style={styles.logo}
+    <View style={styles.pageContainer}>
+      <Header />
+      <View style={styles.container}>
+        {/* Yet to implement API call*/}
+        <CityHeader
+          city={"Calgary"}
+          temperature={"10"}
+          temperatureUnit={temperatureUnitLetter}
+        />
+
+        {/* Yet to implement API call*/}
+        <CurrentWeatherOverview
+          weatherDescription={"clear sky"}
+          minTemperature={"4"}
+          maxTemperature={"15"}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <Text style={styles.header}>Hourly</Text>
+
+        {/* Yet to implement API call*/}
+        <View style={styles.containerThreeHourForecast}>
+          <ThreeHourForecastAPI
+            hour={"1pm"}
+            temperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
           />
-          <Text style={styles.headerText}>NextWeather</Text>
+          <ThreeHourForecastAPI
+            hour={"4pm"}
+            temperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <ThreeHourForecastAPI
+            hour={"7pm"}
+            temperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <ThreeHourForecastAPI
+            hour={"10pm"}
+            temperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
         </View>
-        <View style={{ justifyContent: "flex-end" }}>
-          <TouchableOpacity onPress={toggleTemperatureUnit}>
-            {temperatureUnit ? (
-              <View style={styles.toggleContainer}>
-                <Image
-                  source={require("../../assets/toggle/temperatureToggleC.png")}
-                  alt="Celsius"
-                  style={styles.toggleImage}
-                />
-                <Text style={styles.headerText}>°C</Text>
-              </View>
-            ) : (
-              <View style={styles.toggleContainer}>
-                <Image
-                  source={require("../../assets/toggle/temperatureToggleF.png")}
-                  alt="Fahrenheit"
-                  style={styles.toggleImage}
-                />
-                <Text style={styles.headerText}>°F</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+
+        <Text style={styles.header}>5 Days</Text>
+
+        <View style={styles.containerFiveDaysForecast}>
+          <FiveDaysForecastLabel
+            date={"Mar 05"}
+            maxTemperature={"20"}
+            minTemperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <FiveDaysForecastLabel
+            date={"Mar 06"}
+            maxTemperature={"20"}
+            minTemperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <FiveDaysForecastLabel
+            date={"Mar 07"}
+            maxTemperature={"20"}
+            minTemperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <FiveDaysForecastLabel
+            date={"Mar 08"}
+            maxTemperature={"20"}
+            minTemperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          <FiveDaysForecastLabel
+            date={"Mar 09"}
+            maxTemperature={"20"}
+            minTemperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
         </View>
-      </View>
-
-      {/* Yet to implement API call*/}
-      <CityHeader
-        city={"Calgary"}
-        temperature={"10"}
-        temperatureUnit={temperatureUnitLetter}
-      />
-
-      {/* Yet to implement API call*/}
-      <CurrentWeatherOverview
-        weatherDescription={"clear sky"}
-        minTemperature={"4"}
-        maxTemperature={"15"}
-        temperatureUnit={temperatureUnitLetter}
-      />
-      <Text style={styles.header}>Hourly</Text>
-
-      {/* Yet to implement API call*/}
-      <View style={styles.containerThreeHourForecast}>
-        <ThreeHourForecastAPI
-          hour={"1pm"}
-          temperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <ThreeHourForecastAPI
-          hour={"4pm"}
-          temperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <ThreeHourForecastAPI
-          hour={"7pm"}
-          temperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <ThreeHourForecastAPI
-          hour={"10pm"}
-          temperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-      </View>
-
-      <Text style={styles.header}>5 Days</Text>
-
-      <View style={styles.containerFiveDaysForecast}>
-        <FiveDaysForecastLabel
-          date={"Mar 05"}
-          maxTemperature={"20"}
-          minTemperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <FiveDaysForecastLabel
-          date={"Mar 06"}
-          maxTemperature={"20"}
-          minTemperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <FiveDaysForecastLabel
-          date={"Mar 07"}
-          maxTemperature={"20"}
-          minTemperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <FiveDaysForecastLabel
-          date={"Mar 08"}
-          maxTemperature={"20"}
-          minTemperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <FiveDaysForecastLabel
-          date={"Mar 09"}
-          maxTemperature={"20"}
-          minTemperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  pageContainer: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "#c2e8ff",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
   container: {
     display: "flex",
     flexDirection: "column",
@@ -161,12 +128,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "semibold",
-  },
-
   header: {
     fontSize: 30,
     marginTop: 20,
@@ -196,24 +157,9 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
   },
-  persistentHeader: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#286e99",
-    color: "#fff",
-    justifyContent: "space-between",
-    width: "100%",
-    padding: 5,
-  },
   toggleImage: {
     width: 30,
     height: 30,
-  },
-  logo: {
-    width: 30,
-    height: 30,
-    marginRight: 5,
   },
   toggleContainer: {
     display: "flex",
