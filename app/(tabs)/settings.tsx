@@ -55,10 +55,12 @@ export default function SettingsScreen() {
     <View style={styles.pageContainer}>
       <Header />
       <View style={styles.container}>
-        <Text style={styles.headerText}>Settings</Text>
-        <View style={styles.lineContainer}>
-          <Text style={styles.text}>Temperature Units</Text>
-                      <View style={{ justifyContent: "flex-end" }}>
+
+        <View style={styles.sectionContainer}>
+          <Text style={styles.headerText}>Settings</Text>
+          <View style={styles.lineContainer}>
+            <Text style={styles.text}>Temperature Units</Text>
+            <View style={{ justifyContent: "flex-end" }}>
               <TouchableOpacity onPress={toggleTemperatureUnit}>
                 {temperatureUnit ? (
                   <View style={styles.toggleContainer}>
@@ -81,21 +83,24 @@ export default function SettingsScreen() {
                 )}
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
 
+        <View style={styles.sectionContainer}>
+          <Text style={styles.headerText}>User Profile</Text>
+          <View style={styles.lineContainer}>
+            <Text style={styles.text}>Username:</Text>
+            <Text style={styles.text}>{username}</Text>
+          </View>
+          <View style={styles.lineContainer}>
+            <Text style={styles.text}>Email:</Text>
+            <Text style={styles.text}> {user?.email}</Text>
+          </View>
         </View>
-        <Text style={styles.headerText}>User Profile</Text>
-        <View style={styles.lineContainer}>
-          <Text style={styles.text}>Username:</Text>
-          <Text style={styles.text}>{username}</Text>
-        </View>
-        <View style={styles.lineContainer}>
-          <Text style={styles.text}>Email:</Text>
-          <Text style={styles.text}> {user?.email}</Text>
-        </View>
+
         <TouchableOpacity onPress={handleSignOut} style={styles.button}>
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-        
       </View>
     </View>
   );
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
-    marginTop: 150,
+    marginTop: 100,
   },
   lineContainer: {
     display: "flex",
@@ -127,10 +132,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 300,
   },
+  sectionContainer: {
+    backgroundColor: "#E2F4FF",
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 30,
+  },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 20,
+    width: 300,
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
   },
   text: {
     fontSize: 20,
@@ -143,7 +156,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
-    marginTop: 20,
   },
   buttonText: {
     color: "white",
