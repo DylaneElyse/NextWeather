@@ -83,7 +83,7 @@ export default function CurrentWeatherOverview ({ weatherDescription, minTempera
 
 const styles = StyleSheet.create({
   container: {
-    marginTop:  30,    
+    // marginTop:  30,    
     // borderColor: "black",
     // borderStyle: "dashed",
     // borderWidth: 2,

@@ -37,7 +37,7 @@ export default function SettingsScreen() {
   
   const handleSignOut = async () => {
     await signOut();
-    router.replace("/LandingScreen"); // 🔥 Redirect to login after signing out
+    router.replace("/LoginScreen"); // 🔥 Redirect to login after signing out
   };
 
   if (!user) {

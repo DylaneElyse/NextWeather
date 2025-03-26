@@ -38,6 +38,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-evenly",
+    height: "80%",
   },
   date: {
     fontSize: 12,

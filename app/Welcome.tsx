@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.replace("/LandingScreen"); // 🔥 Redirect to login after signing out
+    router.replace("/LoginScreen"); // 🔥 Redirect to login after signing out
   };
 
   const handleContinueToHomepage = async () => {

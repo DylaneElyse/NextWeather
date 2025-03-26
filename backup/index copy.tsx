@@ -20,7 +20,7 @@ const provider = new GoogleAuthProvider();
 
 export default function LandingScreen() {
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: "YOUR_EXPO_CLIENT_ID", // From Google Cloud Console
+    // expoClientId: "YOUR_EXPO_CLIENT_ID", // From Google Cloud Console
     iosClientId: "YOUR_IOS_CLIENT_ID", // For iOS (optional)
     androidClientId: "YOUR_ANDROID_CLIENT_ID", // For Android (optional)
   });
@@ -48,14 +48,14 @@ export default function LandingScreen() {
 //   }
 // };
 
-export const logOut = async () => {
-  try {
-    await signOut(auth);
-    console.log("User signed out");
-  } catch (error) {
-    console.error(error);
-  }
-};
+// export const logOut = async () => {
+//   try {
+//     await signOut(auth);
+//     console.log("User signed out");
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 
 // export default function LandingScreen() {
@@ -75,19 +75,19 @@ export const logOut = async () => {
 //   );
 // }
 
-export default function LandingScreen() {
-  return (
-    <View style={styles.container}>
-      <Image source={require('../assets/nextWeatherLogo.png')} style={styles.logo} />
-      <TouchableOpacity onPress={signInWithGoogle}>
-        <View style={styles.linkContainer}>
-          <Text style={styles.loginText}>Login with Google</Text>
-          <Image source={require('../assets/google-icon-logo.png')} style={styles.googleIcon} />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-}
+// export default function LandingScreen() {
+//   return (
+//     <View style={styles.container}>
+//       <Image source={require('../assets/nextWeatherLogo.png')} style={styles.logo} />
+//       {/* <TouchableOpacity onPress={signInWithGoogle}> */}
+//         <View style={styles.linkContainer}>
+//           <Text style={styles.loginText}>Login with Google</Text>
+//           <Image source={require('../assets/google-icon-logo.png')} style={styles.googleIcon} />
+//         </View>
+//       {/* </TouchableOpacity> */}
+//     </View>
+//   );
+// }
 
 const styles = StyleSheet.create({
   container: {
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginTop: 10,
   },
-});
+})};

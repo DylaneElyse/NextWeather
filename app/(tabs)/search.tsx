@@ -6,8 +6,8 @@ import citiesData from "../../assets/worldcities with country, ID.json";
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCities, setFilteredCities] = useState<{ city: string; country: string; ID: string }[]>([]);
-  const [cities, setCities] = useState<{ city: string; country: string; ID: string }[]>([]);
+  const [filteredCities, setFilteredCities] = useState<{ city: string; country: string; id: string }[]>([]);
+  const [cities, setCities] = useState<{ city: string; country: string; id: string }[]>([]);
 
   useEffect(() => {
     if (Array.isArray(citiesData)) {

@@ -27,21 +27,28 @@ export default function HomeScreen() {
     <View style={styles.pageContainer}>
       <Header />
       <View style={styles.container}>
-        {/* Yet to implement API call*/}
-        <CityHeader
-          city={"Calgary"}
-          temperature={"10"}
-          temperatureUnit={temperatureUnitLetter}
-        />
+        <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
+          {/* Yet to implement API call*/}
+          <CityHeader
+            city={"Calgary"}
+            temperature={"10"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+        </View>
 
-        {/* Yet to implement API call*/}
-        <CurrentWeatherOverview
-          weatherDescription={"clear sky"}
-          minTemperature={"4"}
-          maxTemperature={"15"}
-          temperatureUnit={temperatureUnitLetter}
-        />
-        <Text style={styles.header}>Hourly</Text>
+        <View style={{height: "30%", width: "100%",}}>
+          {/* Yet to implement API call*/}
+          <CurrentWeatherOverview
+            weatherDescription={"clear sky"}
+            minTemperature={"4"}
+            maxTemperature={"15"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+        </View>
+
+        <View style={{height: "10%", width: "100%",}}>
+          <Text style={styles.header}>Hourly</Text>
+        </View>
 
         {/* Yet to implement API call*/}
         <View style={styles.containerThreeHourForecast}>
@@ -67,7 +74,9 @@ export default function HomeScreen() {
           />
         </View>
 
-        <Text style={styles.header}>5 Days</Text>
+        <View style={{height: "10%", width: "100%"}}>
+          <Text style={styles.header}>5 Days</Text>
+        </View>
 
         <View style={styles.containerFiveDaysForecast}>
           <FiveDaysForecastLabel
@@ -113,13 +122,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#c2e8ff",
     justifyContent: "flex-start",
     alignItems: "center",
+    marginBottom: 35,
+    height: "100%",
   },
   container: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#c2e8ff",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
+    height: "100%",
     // borderColor: "black",
     // borderStyle: "dashed",
     // borderWidth: 2,
@@ -130,20 +142,31 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 30,
-    marginTop: 20,
-    marginBottom: -5,
+    paddingTop: 20,
+    paddingBottom: 10,
+    width: "100%",
+    // borderColor: "black",
+    // borderStyle: "dashed",
+    // borderWidth: 2,
+    // borderRadius: 0,
+
   },
   containerThreeHourForecast: {
     display: "flex",
     flexDirection: "row",
     flexGrow: 1,
-    marginTop: 10,
     backgroundColor: "#E2F4FF",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
     paddingLeft: 25,
     paddingRight: 25,
+    height: "10%",
+    // borderColor: "black",
+    // borderStyle: "dashed",
+    // borderWidth: 2,
+    // borderRadius: 0,
+
   },
   containerFiveDaysForecast: {
     display: "flex",
@@ -152,10 +175,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     flexGrow: 1,
-    marginTop: 10,
     backgroundColor: "#E2F4FF",
     paddingLeft: 15,
     paddingRight: 15,
+    height: "15%",
+    // borderColor: "black",
+    // borderStyle: "dashed",
+    // borderWidth: 2,
+    // borderRadius: 0,
+
   },
   toggleImage: {
     width: 30,
@@ -173,7 +201,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     flexGrow: 1,
-    marginTop: 10,
     backgroundColor: "#E2F4FF",
   },
 });
