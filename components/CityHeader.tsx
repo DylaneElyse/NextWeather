@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
 
-    borderColor: "black",
-    borderStyle: "dashed",
-    borderWidth: 2,
-    borderRadius: 0,
+    // borderColor: "black",
+    // borderStyle: "dashed",
+    // borderWidth: 2,
+    // borderRadius: 0,
   },
   cityNameText: {
     // color: "#fff",
