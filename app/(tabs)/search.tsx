@@ -2,18 +2,16 @@ import React, {useEffect, useState} from "react";
 import { Text, View, StyleSheet, Button, TextInput, FlatList, TouchableOpacity } from "react-native";
 import Header from "../../components/header";
 import { router } from "expo-router";
-import citiesData from "../../assets/searchableCities.json";
-// import { TextInput } from "react-native-gesture-handler";
+import citiesData from "../../assets/worldcities with country, ID.json";
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCities, setFilteredCities] = useState<string[]>([]);
-  const [cities, setCities] = useState<string[]>([]);
+  const [filteredCities, setFilteredCities] = useState<{ city: string; country: string; ID: string }[]>([]);
+  const [cities, setCities] = useState<{ city: string; country: string; ID: string }[]>([]);
 
   useEffect(() => {
     if (Array.isArray(citiesData)) {
-      const cityNames = citiesData.map((item) => item.city); // Extract city names
-      setCities(cityNames);
+      setCities(citiesData); // Store full city objects
     }
   }, []);
 
@@ -26,14 +24,13 @@ export default function SearchScreen() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-
+  
     if (query.length > 0) {
-      const results = cities.filter((city) =>
-        city.toLowerCase().includes(query.toLowerCase())
+      const results = cities.filter((item) =>
+        item.city.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredCities(results);
-    }
-    else{
+    } else {
       setFilteredCities([]);
     }
   };
@@ -62,18 +59,20 @@ export default function SearchScreen() {
       {/* Suggestion List */}
       {filteredCities.length > 0 && (
         <FlatList
-          data={filteredCities}
-          keyExtractor={(item) => item}
-          style={styles.suggestionList}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.suggestionItem}
-              onPress={() => handleSelectCity(item)}
-            >
-              <Text style={styles.suggestionText}>{item}</Text>
-            </TouchableOpacity>
-          )}
-        />
+        data={filteredCities}
+        keyExtractor={(item) => item.id.toString()} // Ensure id is a string
+        style={styles.suggestionList}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.suggestionItem}
+            onPress={() => handleSelectCity(item.city)}
+          >
+            <Text style={styles.suggestionText}>
+              {item.city}, {item.country} {/* Display city & country */}
+            </Text>
+          </TouchableOpacity>
+        )}
+      />
       )}
     </View>
   );
