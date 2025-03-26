@@ -18,7 +18,7 @@ export default function WelcomeScreen() {
   };
 
   const handleContinueToHomepage = async () => {
-    router.replace('/(tabs)/'); // 🔥 Redirect to login after signing out
+    router.replace('/(tabs)/');
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { AuthProvider } from 'contexts/AuthContext';
 export default function RootLayout() {
   return (
     <AuthProvider>
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LandingScreen" options={{ headerShown: false }} />
       <Stack.Screen name="LoginScreen" options={{ title: 'Sign In' }} />
       <Stack.Screen name="RegisterScreen" options={{ title: 'Create Account' }} />

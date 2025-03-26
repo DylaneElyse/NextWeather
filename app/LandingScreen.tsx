@@ -23,8 +23,7 @@ export default function LandingScreen() {
       />
       
       {/* Welcome Message */}
-      <Text style={styles.title}>Welcome to MyApp</Text>
-      <Text style={styles.subtitle}>Your perfect solution for XYZ</Text>
+      <Text style={styles.title}>Welcome to NextWeather</Text>
 
       {/* Login Button */}
       <TouchableOpacity 
@@ -39,6 +38,12 @@ export default function LandingScreen() {
         <Text style={styles.signupText}>Don't have an account? </Text>
         <TouchableOpacity onPress={() => router.push('RegisterScreen')}>
           <Text style={styles.signupLink}>Sign Up</Text>
+        </TouchableOpacity>
+        </View>
+        <View style={styles.signupContainer}>
+        <Text style={styles.signupText}> Continue without sign up?</Text>
+        <TouchableOpacity onPress={() => router.push('(tabs)')}>
+          <Text style={styles.signupLink}> Continue</Text>
         </TouchableOpacity>
       </View>
     </View>

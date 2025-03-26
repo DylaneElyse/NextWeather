@@ -2,15 +2,15 @@
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
-// import { AuthProvider } from './authContext';
+import { AuthProvider } from '../contexts/AuthContext';
 
 export default function App() {
   return (
-    // <AuthProvider>
+    <AuthProvider>
     <View style={{ flex: 1 }}>
       <StatusBar style="auto" />
       <Slot /> {/* This renders the matched route from app/ */}
     </View>
-    // </AuthProvider>
+    </AuthProvider>
   );
 }
