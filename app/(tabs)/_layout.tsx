@@ -24,6 +24,11 @@ export default function TabLayout() {
                 ? require("../../assets/star-dark.png")
                 : require("../../assets/star-grey.png");
             }
+            else if (route.name === "settings") {
+              iconName = focused
+                ? require("../../assets/settings-gear-dark.png")
+                : require("../../assets/settings-gear-grey.png");
+            }
             return <Image source={iconName} style={{ width: 24, height: 24 }} />;
           },
           tabBarActiveTintColor: "#000000",
@@ -51,6 +56,12 @@ export default function TabLayout() {
           name="favorites"
           options={{
             title: "Favorites",
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Settings",
           }}
         />
       </Tabs>
