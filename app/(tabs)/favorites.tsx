@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import Header from "../../components/header";
 import { useAuth } from "../../contexts/AuthContext";
+import { router } from "expo-router";
 
 export default function FavoritesScreen() {
   const { user } = useAuth(); // Get login state from context
@@ -13,6 +14,7 @@ export default function FavoritesScreen() {
         <Header />
         <View style={styles.container}>
           <Text style={styles.text}>Please log in to view favorites.</Text>
+          <Button title="Log In" onPress={() => router.push("/LoginScreen")} />
         </View>
       </View>
     );
@@ -42,8 +44,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#c2e8ff",
     justifyContent: "center",
     alignItems: "center",
+    alignContent: "center",
+    marginTop: 100,
   },
   text: {
-    color: "#fff",
+    fontSize: 20,
+    fontWeight: "semibold",
   },
 });

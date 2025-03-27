@@ -46,6 +46,7 @@ export default function SettingsScreen() {
         <Header />
         <View style={styles.container}>
           <Text style={styles.text}>Please log in to view settings.</Text>
+          <Button title="Log In" onPress={() => router.push("/LoginScreen")} />
         </View>
       </View>
     );
