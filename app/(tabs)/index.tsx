@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
 import CurrentWeatherOverview from "../../components/currentWeatherOverview";
@@ -7,6 +7,7 @@ import FiveDaysForecastLabel from "../../components/FiveDaysForecastAPI";
 import { useLocalSearchParams } from "expo-router";
 import { useTemperature } from "../../contexts/TemperatureContext";
 import Header from "../../components/header";
+import { WEATHER_API_KEY } from "@env";
 
 export default function HomeScreen() {
   const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } =
@@ -17,12 +18,53 @@ export default function HomeScreen() {
   const [cityThreeHourWeatherData, setThreeHourWeatherData] = React.useState<
     any[]
   >([]);
-
+  const [searchedCity, setSearchedCity] = React.useState<string>("Calgary");
   let { searchedCityLat, searchedCityLng } = useLocalSearchParams();
+  const [weather, setWeather] = useState<any>(null);
+
   console.log(searchedCityLat, searchedCityLng);
-  if (searchedCityLat == undefined) {
-    searchedCityLat = "Calgary";
-  }
+
+  useEffect(() => {
+    if (searchedCityLat && searchedCityLng) {
+      fetchWeather(searchedCityLat, searchedCityLng);
+    }
+  }, [searchedCityLat, searchedCityLng]);
+
+  
+  const fetchWeather = async (searchedCityLat: any, searchedCityLng: any) => {
+    try {
+      const API_KEY = WEATHER_API_KEY; // Replace with your API key
+      const url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${searchedCityLat},${searchedCityLng}`;
+    
+    console.log("Fetching weather from:", url); // ✅ Debug API URL
+    
+    const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch weather data");
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      setWeather(data);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log("Weather State:", weather);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      if (searchedCityLat && searchedCityLng) {
+        const weatherData = await fetchWeather(searchedCityLat, searchedCityLng);
+        setThreeHourWeatherData(weatherData);
+      }
+    };
+    fetchWeatherData();
+  }, [searchedCityLat, searchedCityLng]);
+
 
   return (
     <View style={styles.pageContainer}>
@@ -31,7 +73,7 @@ export default function HomeScreen() {
         <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
           {/* Yet to implement API call*/}
           <CityHeader
-            city={"Calgary"}
+            city={weather?.location?.name ?? "Unkown"}
             temperature={"10"}
             temperatureUnit={temperatureUnitLetter}
           />
