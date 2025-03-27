@@ -2,12 +2,12 @@ import React, {useEffect, useState} from "react";
 import { Text, View, StyleSheet, Button, TextInput, FlatList, TouchableOpacity } from "react-native";
 import Header from "../../components/header";
 import { router } from "expo-router";
-import citiesData from "../../assets/worldcities with country, ID.json";
+import citiesData from "../../assets/worldcities current.json";
 
 export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredCities, setFilteredCities] = useState<{ city: string; country: string; id: string }[]>([]);
-  const [cities, setCities] = useState<{ city: string; country: string; id: string }[]>([]);
+  const [filteredCities, setFilteredCities] = useState<{ city: string; lat: string; lng: string; admin_name: string; country: string; id: string }[]>([]);
+  const [cities, setCities] = useState<{ city: string; lat: string; lng: string; admin_name: string; country: string; id: string }[]>([]);
 
   useEffect(() => {
     if (Array.isArray(citiesData)) {
@@ -15,12 +15,12 @@ export default function SearchScreen() {
     }
   }, []);
 
-  const handleNavigate = () => {
-    router.push({
-      pathname: "/",
-      params: { searchedCity: "Calgary" },
-    });
-  };
+  // const handleNavigate = () => {
+  //   router.push({
+  //     pathname: "/",
+  //     params: { searchedCity: "Calgary" },
+  //   });
+  // };
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -35,12 +35,13 @@ export default function SearchScreen() {
     }
   };
 
-  const handleSelectCity = (city: string) => {
-    setSearchQuery(city);
+  const handleSelectCity = (city: string, lat: string, lng: string) => {
+    setSearchQuery(city); // Set the search query to the selected city
     setFilteredCities([]); // Hide suggestions
+    console.log()
     router.push({
       pathname: "/",
-      params: { searchedCity: city },
+      params: { searchedCityLat: lat, searchedCityLng: lng },
     });
   };
 
@@ -48,31 +49,41 @@ export default function SearchScreen() {
     <View style={styles.pageContainer}>
       <Header />
       <View style={styles.searchBox}>
-      <TextInput 
-        style={styles.input}
-        placeholder="Search for a city"
-        placeholderTextColor="#666"
-        value={searchQuery}
-        onChangeText={handleSearch}/>
-      <Button title="Search" onPress={() => handleSelectCity(searchQuery)} />
+        <TextInput
+          style={styles.input}
+          placeholder="Search for a city"
+          placeholderTextColor="#666"
+          value={searchQuery}
+          onChangeText={handleSearch}
+        />
+        <Button 
+          title="Go" 
+          onPress={() => {
+            // Find the selected city in case the user types manually
+            const selectedCity = cities.find(city => city.city.toLowerCase() === searchQuery.toLowerCase());
+            if (selectedCity) {
+              handleSelectCity(selectedCity.city, selectedCity.lat, selectedCity.lng); // Pass lat and lng to the function
+            }
+          }} 
+        />
       </View>
       {/* Suggestion List */}
       {filteredCities.length > 0 && (
         <FlatList
-        data={filteredCities}
-        keyExtractor={(item) => item.id.toString()} // Ensure id is a string
-        style={styles.suggestionList}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.suggestionItem}
-            onPress={() => handleSelectCity(item.city)}
-          >
-            <Text style={styles.suggestionText}>
-              {item.city}, {item.country} {/* Display city & country */}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+          data={filteredCities}
+          keyExtractor={(item) => item.id.toString()}
+          style={styles.suggestionList}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.suggestionItem}
+              onPress={() => handleSelectCity(item.city, item.lat, item.lng)} // Now behaves like "Go" button
+            >
+              <Text style={styles.suggestionText}>
+                {item.city}, {item.country}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
       )}
     </View>
   );

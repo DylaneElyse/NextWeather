@@ -18,9 +18,10 @@ export default function HomeScreen() {
     any[]
   >([]);
 
-  let { searchedCity } = useLocalSearchParams();
-  if (searchedCity == undefined) {
-    searchedCity = "Calgary";
+  let { searchedCityLat, searchedCityLng } = useLocalSearchParams();
+  console.log(searchedCityLat, searchedCityLng);
+  if (searchedCityLat == undefined) {
+    searchedCityLat = "Calgary";
   }
 
   return (
