@@ -10,15 +10,11 @@ import Header from "../../components/header";
 import { WEATHER_API_KEY } from "@env";
 
 export default function HomeScreen() {
-  const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } =
-    useTemperature();
-  const [cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = React.useState<
-    any[]
-  >([]);
-  const [cityThreeHourWeatherData, setThreeHourWeatherData] = React.useState<
-    any[]
-  >([]);
-  const [searchedCity, setSearchedCity] = React.useState<string>("Calgary");
+  const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
+  const [cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = React.useState<any[]>([]);
+  const [cityThreeHoursWeatherData, setCityThreeHoursWeatherData] = React.useState<any[]>([]);
+  // current weather API outputs an object:
+  const [cityCurrentWeatherData, setCityCurrentWeatherData] = React.useState<any>(null);
   let { searchedCityLat, searchedCityLng } = useLocalSearchParams();
   const [weather, setWeather] = useState<any>(null);
 
@@ -26,16 +22,26 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (searchedCityLat && searchedCityLng) {
-      fetchWeather(searchedCityLat, searchedCityLng);
+      fetchWeatherFiveDays(searchedCityLat, searchedCityLng);
+      fetchWeatherCurrent(searchedCityLat, searchedCityLng);
     }
   }, [searchedCityLat, searchedCityLng]);
 
   
-  const fetchWeather = async (searchedCityLat: any, searchedCityLng: any) => {
+  const fetchWeatherFiveDays = async (searchedCityLat: any, searchedCityLng: any) => {
     try {
       const API_KEY = WEATHER_API_KEY; // Replace with your API key
-      const url = `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${searchedCityLat},${searchedCityLng}`;
-    
+      let url;
+      {temperatureUnit ? (
+        // if temperatureUnit is Celsius:
+        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=metric`
+        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
+      ) : (
+        // if temperatureUnit is Farenheit:
+        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=imperial`
+        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
+      )};
+
     console.log("Fetching weather from:", url); // ✅ Debug API URL
     
     const response = await fetch(url);
@@ -46,7 +52,38 @@ export default function HomeScreen() {
   
       const data = await response.json();
       console.log(data);
-      setWeather(data);
+      setCityFiveDaysWeatherData(data);
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+    const fetchWeatherCurrent = async (searchedCityLat: any, searchedCityLng: any) => {
+    try {
+      const API_KEY = WEATHER_API_KEY; // Replace with your API key
+      let url;
+      {temperatureUnit ? (
+        // if temperatureUnit is in Celsius:
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=metric`
+        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
+      ) : (
+        // if temperatureUnit is in Farenheit:
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=imperial`
+        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
+      )};
+
+    console.log("Fetching weather from:", url); // ✅ Debug API URL
+    
+    const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch weather data");
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      setCityCurrentWeatherData(data);
       return data;
     } catch (error) {
       console.error(error);
@@ -55,15 +92,18 @@ export default function HomeScreen() {
 
   console.log("Weather State:", weather);
 
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      if (searchedCityLat && searchedCityLng) {
-        const weatherData = await fetchWeather(searchedCityLat, searchedCityLng);
-        setThreeHourWeatherData(weatherData);
-      }
-    };
-    fetchWeatherData();
-  }, [searchedCityLat, searchedCityLng]);
+  // useEffect(() => {
+  //   const fetchWeatherData = async () => {
+  //     if (searchedCityLat && searchedCityLng) {
+  //       const weatherDataFiveDays = await fetchWeatherFiveDays(searchedCityLat, searchedCityLng);
+  //       const weatherCurrent = await fetchWeatherCurrent(searchedCityLat, searchedCityLng);
+  //       setCityCurrentWeatherData(weatherCurrent);
+  //       setCityFiveDaysWeatherData(weatherDataFiveDays);
+  //     }
+  //   };
+  //   fetchWeatherData();
+  //   console.log(cityCurrentWeatherData);
+  // }, [searchedCityLat, searchedCityLng]);
 
 
   return (
@@ -71,10 +111,9 @@ export default function HomeScreen() {
       <Header />
       <View style={styles.container}>
         <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
-          {/* Yet to implement API call*/}
           <CityHeader
-            city={weather?.location?.name ?? "Unkown"}
-            temperature={"10"}
+            city={cityCurrentWeatherData?.name ?? "Unknown"}
+            temperature={cityCurrentWeatherData?.[0]?.list?.[0]?.main?.temp ?? "N/A"}
             temperatureUnit={temperatureUnitLetter}
           />
         </View>

@@ -41,7 +41,7 @@ export default function SearchScreen() {
     console.log()
     router.push({
       pathname: "/",
-      params: { searchedCityLat: lat, searchedCityLng: lng },
+      params: { searchedCityLat: lat, searchedCityLng: lng, searchedCityName: city },
     });
   };
 
