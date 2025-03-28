@@ -1,22 +1,19 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 
-interface ThreeHoursForecastProps {
+interface ForecastLabelProps {
   date: string;
-  maxTemperature: string;
-  minTemperature: string;
+  maxTemperature: number;
+  minTemperature: number;
   temperatureUnit: string;
 }
 
-export default function FiveDaysForecastLabel({
+export default function ForecastLabel({
   date,
   maxTemperature,
   minTemperature,
   temperatureUnit,
-}: ThreeHoursForecastProps) {
-  // const [hour, setHour] = useState<string>("-");
-  // const [avgTemperature, setTemperature] = useState<string>("-")
-  // const [temperatureUnit, setTemperatureUnit] = useState<string>("°");
+}: ForecastLabelProps) {
 
   return (
     <View style={styles.container}>
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   maxTemperature: {
-    fontSize: 30,
+    fontSize: 25,
     fontStyle: "italic",
     fontWeight: "bold",
   },

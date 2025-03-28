@@ -1,130 +1,129 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
-import CurrentWeatherOverview from "../../components/currentWeatherOverview";
-import ThreeHourForecastAPI from "../../components/ThreeHourForecastAPI";
-import FiveDaysForecastLabel from "../../components/FiveDaysForecastAPI";
+import CurrentWeatherOverview from "../../components/CurrentWeatherOverview";
+import HourlyWeatherLabel from "../../components/HourlyWeatherLabel";
+import ForecastLabel from "../../components/ForecastLabel";
 import { useLocalSearchParams } from "expo-router";
 import { useTemperature } from "../../contexts/TemperatureContext";
 import Header from "../../components/header";
 import { WEATHER_API_KEY } from "@env";
+import { formatMonthDate, formatDay, formatHour } from "../../components/getDayAndTime";
 
 export default function HomeScreen() {
   const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
-  const [cityFiveDaysWeatherData, setCityFiveDaysWeatherData] = React.useState<any[]>([]);
-  const [cityThreeHoursWeatherData, setCityThreeHoursWeatherData] = React.useState<any[]>([]);
-  // current weather API outputs an object:
-  const [cityCurrentWeatherData, setCityCurrentWeatherData] = React.useState<any>(null);
+  const [weatherData, setWeatherData] = React.useState<WeatherData | null>(null);
   let { searchedCityLat, searchedCityLng } = useLocalSearchParams();
-  const [weather, setWeather] = useState<any>(null);
+  const [currentDate, setCurrentDate] = useState<string>("2000-01-01 00:00:00");
 
-  console.log(searchedCityLat, searchedCityLng);
+  interface WeatherData {
+    location?: {
+      name: string;
+      lat: string;
+      lon: string;
+      localtime: string;
+    };
+    current?: {
+      last_updated: string;
+      temp_c: string;
+      temp_f: string;
+      condition: {
+        text: string;
+        icon: string;
+      };
+    };
+    forecast: {
+      forecastday : Array<{
+        date: string;
+        day: {
+          maxtemp_c: number;
+          maxtemp_f: number;
+          mintemp_c: number;
+          mintemp_f: number;
+          avgtemp_c: number;
+          avgtemp_f: number;
+          condition: {
+            text: string;
+            icon: string;
+          }
+        };
+        hour: Array<{
+          time: string;
+          temp_c: number;
+          temp_f: number; 
+          condition: {
+            text: string;
+            icon: string;
+          }}>;
+        }>
+    }
+  }
+
+  
+  console.log("LAT/LONG \n", searchedCityLat, searchedCityLng);
+
+  const fetchWeather = async (searchedCityLat: any, searchedCityLng: any) => {
+    try {
+      const API_KEY = WEATHER_API_KEY; // Replace with your API key
+      const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchedCityLat},${searchedCityLng}&days=7`;
+
+    console.log("Fetching weather from:", url); // ✅ Debug API URL
+    
+    const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch weather data");
+      }
+  
+      const data = await response.json();
+      console.log("WEATHER DATA\n", data);
+      setWeatherData(data);
+      setCurrentDate("2025-03-01 12:00");
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (searchedCityLat == undefined){
+    // Calgary as the default location
+    searchedCityLat = "51.05";
+    searchedCityLng = "-114.0667";
+  }
 
   useEffect(() => {
     if (searchedCityLat && searchedCityLng) {
-      fetchWeatherFiveDays(searchedCityLat, searchedCityLng);
-      fetchWeatherCurrent(searchedCityLat, searchedCityLng);
+      fetchWeather(searchedCityLat, searchedCityLng);
     }
   }, [searchedCityLat, searchedCityLng]);
-
   
-  const fetchWeatherFiveDays = async (searchedCityLat: any, searchedCityLng: any) => {
-    try {
-      const API_KEY = WEATHER_API_KEY; // Replace with your API key
-      let url;
-      {temperatureUnit ? (
-        // if temperatureUnit is Celsius:
-        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=metric`
-        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
-      ) : (
-        // if temperatureUnit is Farenheit:
-        url = `https://api.openweathermap.org/data/2.5/forecast?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=imperial`
-        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
-      )};
-
-    console.log("Fetching weather from:", url); // ✅ Debug API URL
-    
-    const response = await fetch(url);
-  
-      if (!response.ok) {
-        throw new Error("Failed to fetch weather data");
-      }
-  
-      const data = await response.json();
-      console.log(data);
-      setCityFiveDaysWeatherData(data);
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-    const fetchWeatherCurrent = async (searchedCityLat: any, searchedCityLng: any) => {
-    try {
-      const API_KEY = WEATHER_API_KEY; // Replace with your API key
-      let url;
-      {temperatureUnit ? (
-        // if temperatureUnit is in Celsius:
-        url = `https://api.openweathermap.org/data/2.5/weather?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=metric`
-        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
-      ) : (
-        // if temperatureUnit is in Farenheit:
-        url = `https://api.openweathermap.org/data/2.5/weather?lat=${searchedCityLat}&lon=${searchedCityLng}&appid=${API_KEY}&units=imperial`
-        //     https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric
-      )};
-
-    console.log("Fetching weather from:", url); // ✅ Debug API URL
-    
-    const response = await fetch(url);
-  
-      if (!response.ok) {
-        throw new Error("Failed to fetch weather data");
-      }
-  
-      const data = await response.json();
-      console.log(data);
-      setCityCurrentWeatherData(data);
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  console.log("Weather State:", weather);
-
-  // useEffect(() => {
-  //   const fetchWeatherData = async () => {
-  //     if (searchedCityLat && searchedCityLng) {
-  //       const weatherDataFiveDays = await fetchWeatherFiveDays(searchedCityLat, searchedCityLng);
-  //       const weatherCurrent = await fetchWeatherCurrent(searchedCityLat, searchedCityLng);
-  //       setCityCurrentWeatherData(weatherCurrent);
-  //       setCityFiveDaysWeatherData(weatherDataFiveDays);
-  //     }
-  //   };
-  //   fetchWeatherData();
-  //   console.log(cityCurrentWeatherData);
-  // }, [searchedCityLat, searchedCityLng]);
-
-
   return (
     <View style={styles.pageContainer}>
       <Header />
       <View style={styles.container}>
         <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
+          {temperatureUnit ?
           <CityHeader
-            city={cityCurrentWeatherData?.name ?? "Unknown"}
-            temperature={cityCurrentWeatherData?.[0]?.list?.[0]?.main?.temp ?? "N/A"}
+            city={weatherData?.location?.name ?? "Unknown"}
+            temperature={weatherData?.current?.temp_c ?? "N/A"}
             temperatureUnit={temperatureUnitLetter}
           />
+          :
+          <CityHeader
+            city={weatherData?.location?.name ?? "Unknown"}
+            temperature={weatherData?.current?.temp_f ?? "N/A"}
+            temperatureUnit={temperatureUnitLetter}
+          />
+          }
         </View>
 
         <View style={{height: "30%", width: "100%",}}>
-          {/* Yet to implement API call*/}
           <CurrentWeatherOverview
-            weatherDescription={"clear sky"}
-            minTemperature={"4"}
-            maxTemperature={"15"}
+            weatherCondition={weatherData?.current?.condition.text ?? "Condition"}
+            minTemperature={weatherData?.forecast.forecastday[0].day.mintemp_c ?? 0}
+            maxTemperature={weatherData?.forecast.forecastday[0].day.maxtemp_c ?? 0}
             temperatureUnit={temperatureUnitLetter}
+            imageURL={weatherData?.forecast.forecastday[0].day.condition.icon ?? "../../assets/icon.png"}
           />
         </View>
 
@@ -132,25 +131,24 @@ export default function HomeScreen() {
           <Text style={styles.header}>Hourly</Text>
         </View>
 
-        {/* Yet to implement API call*/}
-        <View style={styles.containerThreeHourForecast}>
-          <ThreeHourForecastAPI
-            hour={"1pm"}
+        <View style={styles.containerCurrentWeather}>
+          <HourlyWeatherLabel
+            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 1}
             temperature={"10"}
             temperatureUnit={temperatureUnitLetter}
           />
-          <ThreeHourForecastAPI
-            hour={"4pm"}
+          <HourlyWeatherLabel
+            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 2}
             temperature={"10"}
             temperatureUnit={temperatureUnitLetter}
           />
-          <ThreeHourForecastAPI
-            hour={"7pm"}
+          <HourlyWeatherLabel
+            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 3}
             temperature={"10"}
             temperatureUnit={temperatureUnitLetter}
           />
-          <ThreeHourForecastAPI
-            hour={"10pm"}
+          <HourlyWeatherLabel
+            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 4}
             temperature={"10"}
             temperatureUnit={temperatureUnitLetter}
           />
@@ -160,35 +158,35 @@ export default function HomeScreen() {
           <Text style={styles.header}>5 Days</Text>
         </View>
 
-        <View style={styles.containerFiveDaysForecast}>
-          <FiveDaysForecastLabel
-            date={"Mar 05"}
-            maxTemperature={"20"}
-            minTemperature={"10"}
+        <View style={styles.containerForecast}>
+          <ForecastLabel
+            date={formatMonthDate(weatherData?.forecast.forecastday[1].date ?? "1999-01-01 00:00:00")}
+            maxTemperature={weatherData?.forecast.forecastday[1].day.maxtemp_c ?? -100}
+            minTemperature={weatherData?.forecast.forecastday[1].day.mintemp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
-          <FiveDaysForecastLabel
-            date={"Mar 06"}
-            maxTemperature={"20"}
-            minTemperature={"10"}
+          <ForecastLabel
+            date={formatMonthDate(weatherData?.forecast.forecastday[2].date ?? "1999-01-01 00:00:00")}
+            maxTemperature={weatherData?.forecast.forecastday[2].day.maxtemp_c ?? -100}
+            minTemperature={weatherData?.forecast.forecastday[2].day.mintemp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
-          <FiveDaysForecastLabel
-            date={"Mar 07"}
-            maxTemperature={"20"}
-            minTemperature={"10"}
+          <ForecastLabel
+            date={formatMonthDate(weatherData?.forecast.forecastday[3].date ?? "1999-01-01 00:00:00")}
+            maxTemperature={weatherData?.forecast.forecastday[3].day.maxtemp_c ?? -100}
+            minTemperature={weatherData?.forecast.forecastday[3].day.mintemp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
-          <FiveDaysForecastLabel
-            date={"Mar 08"}
-            maxTemperature={"20"}
-            minTemperature={"10"}
+          <ForecastLabel
+            date={formatMonthDate(weatherData?.forecast.forecastday[4].date ?? "1999-01-01 00:00:00")}
+            maxTemperature={weatherData?.forecast.forecastday[4].day.maxtemp_c ?? -100}
+            minTemperature={weatherData?.forecast.forecastday[4].day.mintemp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
-          <FiveDaysForecastLabel
-            date={"Mar 09"}
-            maxTemperature={"20"}
-            minTemperature={"10"}
+           <ForecastLabel
+            date={formatMonthDate(weatherData?.forecast.forecastday[5].date ?? "1999-01-01 00:00:00")}
+            maxTemperature={weatherData?.forecast.forecastday[5].day.maxtemp_c ?? -100}
+            minTemperature={weatherData?.forecast.forecastday[5].day.mintemp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
         </View>
@@ -214,10 +212,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     height: "100%",
-    // borderColor: "black",
-    // borderStyle: "dashed",
-    // borderWidth: 2,
-    // borderRadius: 0,
   },
   text: {
     color: "#fff",
@@ -227,13 +221,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
     width: "100%",
-    // borderColor: "black",
-    // borderStyle: "dashed",
-    // borderWidth: 2,
-    // borderRadius: 0,
-
   },
-  containerThreeHourForecast: {
+  containerCurrentWeather: {
     display: "flex",
     flexDirection: "row",
     flexGrow: 1,
@@ -244,13 +233,8 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     height: "10%",
-    // borderColor: "black",
-    // borderStyle: "dashed",
-    // borderWidth: 2,
-    // borderRadius: 0,
-
   },
-  containerFiveDaysForecast: {
+  containerForecast: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -261,11 +245,6 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     height: "15%",
-    // borderColor: "black",
-    // borderStyle: "dashed",
-    // borderWidth: 2,
-    // borderRadius: 0,
-
   },
   toggleImage: {
     width: 30,

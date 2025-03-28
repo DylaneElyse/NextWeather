@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     // color: "#fff",
     fontSize: 50,
     fontWeight: "500",
+    width: 200,
   },  
   cityTemperatureText: {
     // color: "#fff",

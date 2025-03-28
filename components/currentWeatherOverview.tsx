@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 
 interface currentWeatherOverviewProps {
-  weatherDescription: string;
+  weatherCondition: string;
   // weather.description
-  minTemperature: string;
+  minTemperature: number;
   // temp_min
-  maxTemperature: string;
+  maxTemperature: number;
   // temp_max
   temperatureUnit: string;
   // passed through the const within the index page
+  imageURL: string;
 }
 
 const DisplayWeatherIcon = ({weatherDescription}: {weatherDescription: string}) => {
@@ -65,14 +66,15 @@ const DisplayWeatherIcon = ({weatherDescription}: {weatherDescription: string}) 
   }
 };
 
-export default function CurrentWeatherOverview ({ weatherDescription, minTemperature, maxTemperature, temperatureUnit}: currentWeatherOverviewProps ) {
+export default function CurrentWeatherOverview ({ weatherCondition: weatherDescription, minTemperature, maxTemperature, temperatureUnit, imageURL}: currentWeatherOverviewProps ) {
     // In alignment with the API doc, location would be
     // equivalent to city.
 
     return (
     <View style={styles.container}>        
       <View style={styles.iconContainer}>
-          <DisplayWeatherIcon weatherDescription={weatherDescription}/>
+          {/* <DisplayWeatherIcon weatherDescription={weatherDescription}/> */}
+          <Image source={{ uri: "https://cdn.weatherapi.com/weather/64x64/day/176.png"}} alt="icon"/>
       </View>
       <View style={styles.innerContainer}>
           <Text style={styles.minMaxTemperature}>{minTemperature} {temperatureUnit}/{maxTemperature} {temperatureUnit}</Text>

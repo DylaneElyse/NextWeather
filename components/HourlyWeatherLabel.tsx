@@ -7,14 +7,11 @@ interface ThreeHoursForecastProps {
   temperatureUnit: string;
 }
 
-export default function ThreeHoursForecastLabel({
+export default function HourlyWeatherLabel({
   hour,
   temperature: avgTemperature,
   temperatureUnit,
 }: ThreeHoursForecastProps) {
-  // const [hour, setHour] = useState<string>("-");
-  // const [avgTemperature, setTemperature] = useState<string>("-")
-  // const [temperatureUnit, setTemperatureUnit] = useState<string>("°");
 
   return (
     <View style={styles.container}>
