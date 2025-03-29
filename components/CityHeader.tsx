@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 
 interface CityHeaderProps {
   city: string;
-  temperature: string;
+  temperature: number;
   temperatureUnit: string;
 }
 

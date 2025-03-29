@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
+import { militaryTimeToStandard } from "./militaryTimeToStandard";
 
-interface ThreeHoursForecastProps {
-  hour: string;
-  temperature: string;
+interface HourlyWeatherProps {
+  hour: number;
+  temperature: number;
   temperatureUnit: string;
 }
 
@@ -11,11 +12,11 @@ export default function HourlyWeatherLabel({
   hour,
   temperature: avgTemperature,
   temperatureUnit,
-}: ThreeHoursForecastProps) {
+}: HourlyWeatherProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.time}>{hour}</Text>
+      <Text style={styles.time}>{militaryTimeToStandard(hour)}</Text>
       <Text style={styles.temperature}>
         {avgTemperature}
         {temperatureUnit}

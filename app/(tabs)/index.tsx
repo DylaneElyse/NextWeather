@@ -9,6 +9,7 @@ import { useTemperature } from "../../contexts/TemperatureContext";
 import Header from "../../components/header";
 import { WEATHER_API_KEY } from "@env";
 import { formatMonthDate, formatDay, formatHour } from "../../components/getDayAndTime";
+import { militaryToStandardTime } from "../../components/militaryToStandardTime";
 
 export default function HomeScreen() {
   const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
@@ -25,8 +26,8 @@ export default function HomeScreen() {
     };
     current?: {
       last_updated: string;
-      temp_c: string;
-      temp_f: string;
+      temp_c: number;
+      temp_f: number;
       condition: {
         text: string;
         icon: string;
@@ -105,13 +106,13 @@ export default function HomeScreen() {
           {temperatureUnit ?
           <CityHeader
             city={weatherData?.location?.name ?? "Unknown"}
-            temperature={weatherData?.current?.temp_c ?? "N/A"}
+            temperature={weatherData?.current?.temp_c ?? -10}
             temperatureUnit={temperatureUnitLetter}
           />
           :
           <CityHeader
             city={weatherData?.location?.name ?? "Unknown"}
-            temperature={weatherData?.current?.temp_f ?? "N/A"}
+            temperature={weatherData?.current?.temp_f ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           }
@@ -123,7 +124,7 @@ export default function HomeScreen() {
             minTemperature={weatherData?.forecast.forecastday[0].day.mintemp_c ?? 0}
             maxTemperature={weatherData?.forecast.forecastday[0].day.maxtemp_c ?? 0}
             temperatureUnit={temperatureUnitLetter}
-            imageURL={weatherData?.forecast.forecastday[0].day.condition.icon ?? "../../assets/icon.png"}
+            imageURL={"https:" + weatherData?.forecast.forecastday[0].day.condition.icon}
           />
         </View>
 
@@ -133,23 +134,23 @@ export default function HomeScreen() {
 
         <View style={styles.containerCurrentWeather}>
           <HourlyWeatherLabel
-            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 1}
-            temperature={"10"}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1}
+            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 2}
-            temperature={"10"}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2}
+            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 3}
-            temperature={"10"}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3}
+            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00") + 4}
-            temperature={"10"}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 4}
+            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
         </View>

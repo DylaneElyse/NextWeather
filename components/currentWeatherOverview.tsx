@@ -74,7 +74,9 @@ export default function CurrentWeatherOverview ({ weatherCondition: weatherDescr
     <View style={styles.container}>        
       <View style={styles.iconContainer}>
           {/* <DisplayWeatherIcon weatherDescription={weatherDescription}/> */}
-          <Image source={{ uri: "https://cdn.weatherapi.com/weather/64x64/day/176.png"}} alt="icon"/>
+          <Image source={{ uri: imageURL}} 
+          alt="icon"
+          style={{ width: 200, height: 200 }}/>
       </View>
       <View style={styles.innerContainer}>
           <Text style={styles.minMaxTemperature}>{minTemperature} {temperatureUnit}/{maxTemperature} {temperatureUnit}</Text>
