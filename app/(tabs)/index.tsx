@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
-import CurrentWeatherOverview from "../../components/currentWeatherOverview";
+import CurrentWeatherOverview from "../../components/CurrentWeatherOverview";
 import HourlyWeatherLabel from "../../components/HourlyWeatherLabel";
 import ForecastLabel from "../../components/ForecastLabel";
 import { useLocalSearchParams } from "expo-router";
@@ -79,7 +79,7 @@ export default function HomeScreen() {
       const data = await response.json();
       console.log("WEATHER DATA\n", data);
       setWeatherData(data);
-      setCurrentDate("2025-03-01 12:00");
+      OffsetTime();
       return data;
     } catch (error) {
       console.error(error);
@@ -98,6 +98,54 @@ export default function HomeScreen() {
     }
   }, [searchedCityLat, searchedCityLng]);
   
+
+  // To prevent from getting errors when looking for forecast for the following
+  // hours after 24:00 of the current day.
+  let APIOffsetHour1 = 0;
+  let APIOffsetHour2 = 0;
+  let APIOffsetHour3 = 0;
+  let APIOffsetHour4 = 0;
+
+  let APIOffsetDay1 = 0;
+  let APIOffsetDay2 = 0;
+  let APIOffsetDay3 = 0;
+  let APIOffsetDay4 = 0;
+
+  const OffsetTime = () => {
+    switch (parseInt(formatHour(weatherData?.current?.last_updated ??  "1999-01-01 00:00"))) {
+        case 21:
+          APIOffsetHour4 = -25;
+          APIOffsetDay4 = 1;
+            return;
+        case 22:
+          APIOffsetHour4 = -26;
+          APIOffsetDay4 = 1;
+          APIOffsetHour3 = -25;
+          APIOffsetDay3 = 1;
+            return;
+        case 23:
+          APIOffsetHour4 = -27;
+          APIOffsetDay4 = 1;
+          APIOffsetHour3 = -26;
+          APIOffsetDay3 = 1;
+          APIOffsetHour2 = -25;
+          APIOffsetDay2 = 1;
+            return;
+        case 24:
+          APIOffsetHour4 = -28;
+          APIOffsetDay4 = 1;
+          APIOffsetHour3 = -27;
+          APIOffsetDay3 = 1;
+          APIOffsetHour2 = -26;
+          APIOffsetDay2 = 1;
+          APIOffsetHour1 = -25;
+          APIOffsetDay1 = 1;
+            return;
+        default:
+            return;
+    }
+  };
+
   return (
     <View style={styles.pageContainer}>
       <Header />
@@ -134,23 +182,23 @@ export default function HomeScreen() {
 
         <View style={styles.containerCurrentWeather}>
           <HourlyWeatherLabel
-            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1}
-            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1].temp_c ?? -100}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour1}
+            temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay1].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour1].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2}
-            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2].temp_c ?? -100}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2 + APIOffsetHour2}
+            temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay2].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2 + APIOffsetHour2].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3}
-            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3].temp_c ?? -100}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3 + APIOffsetHour3}
+            temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay3].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3 + APIOffsetHour3].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           <HourlyWeatherLabel
-            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 4}
-            temperature={weatherData?.forecast.forecastday[0].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1].temp_c ?? -100}
+            hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 4 + APIOffsetHour4}
+            temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay4].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour4].temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
         </View>
