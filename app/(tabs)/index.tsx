@@ -99,8 +99,8 @@ export default function HomeScreen() {
   }, [searchedCityLat, searchedCityLng]);
   
 
-  // To prevent from getting errors when looking for forecast for the following
-  // hours after 24:00 of the current day.
+  // To prevent from getting errors when looking for forecast for any hour 
+  // after 24:00 of the current day.
   let APIOffsetHour1 = 0;
   let APIOffsetHour2 = 0;
   let APIOffsetHour3 = 0;
@@ -149,6 +149,9 @@ export default function HomeScreen() {
   return (
     <View style={styles.pageContainer}>
       <Header />
+      {temperatureUnit ? 
+      // CELSIUS
+      
       <View style={styles.container}>
         <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
           {temperatureUnit ?
@@ -160,7 +163,7 @@ export default function HomeScreen() {
           :
           <CityHeader
             city={weatherData?.location?.name ?? "Unknown"}
-            temperature={weatherData?.current?.temp_f ?? -100}
+            temperature={weatherData?.current?.temp_c ?? -100}
             temperatureUnit={temperatureUnitLetter}
           />
           }
@@ -240,6 +243,101 @@ export default function HomeScreen() {
           />
         </View>
       </View>
+
+      :
+
+      // FARENHEIT
+      <View style={styles.container}>
+      <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
+        {temperatureUnit ?
+        <CityHeader
+          city={weatherData?.location?.name ?? "Unknown"}
+          temperature={weatherData?.current?.temp_f ?? -10}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        :
+        <CityHeader
+          city={weatherData?.location?.name ?? "Unknown"}
+          temperature={weatherData?.current?.temp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        }
+      </View>
+
+      <View style={{height: "30%", width: "100%",}}>
+        <CurrentWeatherOverview
+          weatherCondition={weatherData?.current?.condition.text ?? "Condition"}
+          minTemperature={weatherData?.forecast.forecastday[0].day.mintemp_f ?? 0}
+          maxTemperature={weatherData?.forecast.forecastday[0].day.maxtemp_f ?? 0}
+          temperatureUnit={temperatureUnitLetter}
+          imageURL={"https:" + weatherData?.forecast.forecastday[0].day.condition.icon}
+        />
+      </View>
+
+      <View style={{height: "10%", width: "100%",}}>
+        <Text style={styles.header}>Hourly</Text>
+      </View>
+
+      <View style={styles.containerCurrentWeather}>
+        <HourlyWeatherLabel
+          hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour1}
+          temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay1].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour1].temp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <HourlyWeatherLabel
+          hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2 + APIOffsetHour2}
+          temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay2].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 2 + APIOffsetHour2].temp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <HourlyWeatherLabel
+          hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3 + APIOffsetHour3}
+          temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay3].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 3 + APIOffsetHour3].temp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <HourlyWeatherLabel
+          hour={parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 4 + APIOffsetHour4}
+          temperature={weatherData?.forecast.forecastday[0 + APIOffsetDay4].hour[parseInt(formatHour(weatherData?.current?.last_updated ?? "1999-01-01 00:00")) + 1 + APIOffsetHour4].temp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+      </View>
+
+      <View style={{height: "10%", width: "100%"}}>
+        <Text style={styles.header}>5 Days</Text>
+      </View>
+
+      <View style={styles.containerForecast}>
+        <ForecastLabel
+          date={formatMonthDate(weatherData?.forecast.forecastday[1].date ?? "1999-01-01 00:00:00")}
+          maxTemperature={weatherData?.forecast.forecastday[1].day.maxtemp_f ?? -100}
+          minTemperature={weatherData?.forecast.forecastday[1].day.mintemp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <ForecastLabel
+          date={formatMonthDate(weatherData?.forecast.forecastday[2].date ?? "1999-01-01 00:00:00")}
+          maxTemperature={weatherData?.forecast.forecastday[2].day.maxtemp_f ?? -100}
+          minTemperature={weatherData?.forecast.forecastday[2].day.mintemp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <ForecastLabel
+          date={formatMonthDate(weatherData?.forecast.forecastday[3].date ?? "1999-01-01 00:00:00")}
+          maxTemperature={weatherData?.forecast.forecastday[3].day.maxtemp_f ?? -100}
+          minTemperature={weatherData?.forecast.forecastday[3].day.mintemp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+        <ForecastLabel
+          date={formatMonthDate(weatherData?.forecast.forecastday[4].date ?? "1999-01-01 00:00:00")}
+          maxTemperature={weatherData?.forecast.forecastday[4].day.maxtemp_f ?? -100}
+          minTemperature={weatherData?.forecast.forecastday[4].day.mintemp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+         <ForecastLabel
+          date={formatMonthDate(weatherData?.forecast.forecastday[5].date ?? "1999-01-01 00:00:00")}
+          maxTemperature={weatherData?.forecast.forecastday[5].day.maxtemp_f ?? -100}
+          minTemperature={weatherData?.forecast.forecastday[5].day.mintemp_f ?? -100}
+          temperatureUnit={temperatureUnitLetter}
+        />
+      </View>
+    </View>}
     </View>
   );
 }
