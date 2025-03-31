@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   time: {
-    fontSize: 15,
+    fontSize: 18,
   },
   temperature: {
     fontSize: 30,

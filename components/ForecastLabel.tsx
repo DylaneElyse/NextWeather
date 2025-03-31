@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   date: {
-    fontSize: 12,
+    fontSize: 18,
   },
   maxTemperature: {
     fontSize: 25,
