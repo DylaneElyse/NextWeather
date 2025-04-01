@@ -95,8 +95,8 @@ export default function HomeScreen() {
           setHourlyTimeForecastC([23, 0, 1, 2]);
             return;
         case 23:
-          setHourlyTempForecastC(
-            [weatherData?.forecast.forecastday[1].hour[0].temp_c ?? -100,
+          setHourlyTempForecastC([
+            weatherData?.forecast.forecastday[1].hour[0].temp_c ?? -100,
             weatherData?.forecast.forecastday[1].hour[1].temp_c ?? -100,
             weatherData?.forecast.forecastday[1].hour[2].temp_c ?? -100,
             weatherData?.forecast.forecastday[1].hour[3].temp_c ?? -100
@@ -199,7 +199,8 @@ export default function HomeScreen() {
       const data = await response.json();
       console.log("WEATHER DATA\n", data);
       setWeatherData(data);
-      await GetHourlyForecastCelsius();
+      GetHourlyForecastCelsius();
+      GetHourlyForecastFarenheit();
       return data;
     } catch (error) {
       console.error(error);
@@ -216,18 +217,21 @@ export default function HomeScreen() {
   useEffect(() => {
     if (searchedCityLat && searchedCityLng) {
       fetchWeather(searchedCityLat, searchedCityLng);
-      GetHourlyForecastCelsius();
-      GetHourlyForecastFarenheit();
     }
   }, [searchedCityLat, searchedCityLng]);
   
   useEffect(() => {
     if (searchedCityLat && searchedCityLng) {
       fetchWeather(searchedCityLat, searchedCityLng);
+    }
+  }, []);
+
+ useEffect(() => {
+    if (weatherData) {
       GetHourlyForecastCelsius();
       GetHourlyForecastFarenheit();
     }
-  }, []);
+  }, [weatherData]);
 
   return (
     <View style={styles.pageContainer}>
