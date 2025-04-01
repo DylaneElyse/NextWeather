@@ -5,7 +5,7 @@ import { TemperatureProvider } from "../../contexts/TemperatureContext";
 
 export default function TabLayout() {
   return (
-    <TemperatureProvider>
+    // <TemperatureProvider>
       <Tabs
         screenOptions={({ route }) => ({
           headerShown: false,
@@ -65,6 +65,6 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </TemperatureProvider>
+    // </TemperatureProvider>
   );
 }
