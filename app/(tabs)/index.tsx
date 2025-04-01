@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
-import CurrentWeatherOverview from "../../components/currentWeatherOverview";
+import CurrentWeatherOverview from "../../components/CurrentWeatherOverview";
 import HourlyWeatherLabel from "../../components/HourlyWeatherLabel";
 import ForecastLabel from "../../components/ForecastLabel";
 import { useLocalSearchParams } from "expo-router";
