@@ -15,7 +15,7 @@ export default function CurrentWeatherOverview ({ weatherCondition, minTemperatu
       <View style={styles.iconContainer}>
           <Image source={{ uri: imageURL}} 
           alt="icon"
-          style={{ width: 200, height: 200 }}/>
+          style={{ width: 180, height: 180 }}/>
       </View>
       <View style={styles.innerContainer}>
           <Text style={styles.weatherCondition}>{weatherCondition}</Text>
@@ -27,26 +27,32 @@ export default function CurrentWeatherOverview ({ weatherCondition, minTemperatu
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -40,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    marginTop: 0,
+    alignItems: "center",
+    marginBottom: 16,
   },
+
   innerContainer: {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column",
-    marginTop: -30,
+    marginTop: 0,
   },
   iconContainer: {
   },
   weatherIcon: {
-    width: 180,
-    height: 180,
+    width: "20%",
+    height: "20%",
   },
   weatherCondition: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "300",
   },
   minMaxTemperature: {
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "300",
   },  
 });

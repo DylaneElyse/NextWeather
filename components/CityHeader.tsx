@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#25292e",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "row",
+    flexDirection: "column",
 
     // borderColor: "black",
     // borderStyle: "dashed",
@@ -38,15 +38,16 @@ const styles = StyleSheet.create({
   },
   cityNameText: {
     // color: "#fff",
-    fontSize: 50,
+    fontSize: 42,
     fontWeight: "500",
-    width: 200,
+    width: "100%",
+    marginTop: 12,
   },  
   cityTemperatureText: {
     // color: "#fff",
-    fontSize: 50,
+    fontSize: 42,
     fontWeight: "300",
-    marginLeft: 25,
+    marginLeft: 0,
   },
 });
 

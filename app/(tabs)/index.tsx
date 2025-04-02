@@ -239,7 +239,7 @@ export default function HomeScreen() {
       {temperatureUnit ?
       // Celsius
       <View style={styles.container}>
-        <View style={{height: "15%", width: "100%", alignContent: "center", padding: 10,}}>
+        <View style={{height: "15%", width: "80%", alignContent: "center", padding: 10,}}>
           <CityHeader
             city={Array.isArray(searchedCityName) ? searchedCityName.join(", ") : searchedCityName}
             temperature={weatherData?.current?.temp_c ?? -10}
