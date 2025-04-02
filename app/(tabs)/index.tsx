@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import CityHeader from "../../components/CityHeader";
-import CurrentWeatherOverview from "../../components/CurrentWeatherOverview";
 import HourlyWeatherLabel from "../../components/HourlyWeatherLabel";
 import ForecastLabel from "../../components/ForecastLabel";
 import { useLocalSearchParams } from "expo-router";
@@ -9,6 +8,7 @@ import { useTemperature } from "../../contexts/TemperatureContext";
 import Header from "../../components/header";
 import { WEATHER_API_KEY } from "@env";
 import { formatMonthDate, formatDay, formatHour } from "../../components/getDayAndTime";
+import CurrentWeatherOverview from "../../components/currentWeatherOverview";
 
 export default function HomeScreen() {
   const { temperatureUnit, temperatureUnitLetter, toggleTemperatureUnit } = useTemperature();
