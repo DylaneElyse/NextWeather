@@ -1,20 +1,16 @@
-// CORRECT content for: app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
 import React from "react";
 import { Image } from "react-native";
-// Removed TemperatureProvider from here - it's now wrapping the root layout
-// import { TemperatureProvider } from "../../contexts/TemperatureContext";
+import { TemperatureProvider } from "../../contexts/TemperatureContext";
 
 export default function TabLayout() {
-  console.log('[TabLayout] Rendering Tabs Layout'); // Add log
   return (
-    // <TemperatureProvider> // REMOVED - Moved to root layout
+    // <TemperatureProvider>
       <Tabs
         screenOptions={({ route }) => ({
-          headerShown: false, // Keep header shown/hidden as needed for tabs
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             let iconName;
-            // Make sure these paths are correct relative to app/(tabs)/_layout.tsx
             if (route.name === "index") {
               iconName = focused
                 ? require("../../assets/home-dark.png")
@@ -33,8 +29,7 @@ export default function TabLayout() {
                 ? require("../../assets/settings-gear-dark.png")
                 : require("../../assets/settings-gear-grey.png");
             }
-            // Handle potential missing icon case gracefully
-            return iconName ? <Image source={iconName} style={{ width: 24, height: 24 }} /> : null;
+            return <Image source={iconName} style={{ width: 24, height: 24 }} />;
           },
           tabBarActiveTintColor: "#000000",
           tabBarInactiveTintColor: "#808080",
@@ -43,35 +38,33 @@ export default function TabLayout() {
             borderTopWidth: 1,
             borderTopColor: "#f0f0f0",
           },
-          // Consider adding tabBarShowLabel: false if you only want icons
         })}
       >
-        {/* These names must match the filenames in app/(tabs)/ */}
         <Tabs.Screen
-          name="index" // Corresponds to app/(tabs)/index.tsx
+          name="index"
           options={{
             title: "Home",
           }}
         />
         <Tabs.Screen
-          name="search" // Corresponds to app/(tabs)/search.tsx
+          name="search"
           options={{
             title: "Search",
           }}
         />
         <Tabs.Screen
-          name="favorites" // Corresponds to app/(tabs)/favorites.tsx
+          name="favorites"
           options={{
             title: "Favorites",
           }}
         />
         <Tabs.Screen
-          name="settings" // Corresponds to app/(tabs)/settings.tsx
+          name="settings"
           options={{
             title: "Settings",
           }}
         />
       </Tabs>
-    // </TemperatureProvider> // REMOVED
+    // </TemperatureProvider>
   );
 }

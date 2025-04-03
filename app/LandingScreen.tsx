@@ -14,6 +14,10 @@ interface Props {
 }
 
 export default function LandingScreen() {
+  const handleContinue = () => {
+    console.log("Attempting to navigate to tabs"); // Add this for debugging
+    router.replace("/(tabs)"); // Using replace instead of push
+  };
   return (
     <View style={styles.container}>
       {/* App Logo/Header */}
@@ -42,7 +46,7 @@ export default function LandingScreen() {
       </View>
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}> Continue without sign up?</Text>
-        <TouchableOpacity onPress={() => router.push("(tabs)")}>
+        <TouchableOpacity onPress={handleContinue}>
           <Text style={styles.signupLink}> Continue</Text>
         </TouchableOpacity>
       </View>
