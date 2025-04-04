@@ -247,7 +247,7 @@ export default function HomeScreen() {
           />
         </View>
 
-        <View style={{height: "30%", width: "100%",}}>
+        <View style={{height: "30%", width: "100%"}}>
           <CurrentWeatherOverview
             weatherCondition={weatherData?.current?.condition.text ?? "Condition"}
             minTemperature={weatherData?.forecast.forecastday[0].day.mintemp_c ?? 0}

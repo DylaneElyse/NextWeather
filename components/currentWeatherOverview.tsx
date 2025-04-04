@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
-
   innerContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -49,6 +48,9 @@ const styles = StyleSheet.create({
   },
   weatherCondition: {
     fontSize: 30,
+    justifyContent: "center",
+    alignContent: "center",
+    textAlign: "center",
     fontWeight: "300",
   },
   minMaxTemperature: {
