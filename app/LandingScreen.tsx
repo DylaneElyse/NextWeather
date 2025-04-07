@@ -15,8 +15,8 @@ interface Props {
 
 export default function LandingScreen() {
   const handleContinue = () => {
-    console.log("Attempting to navigate to tabs"); // Add this for debugging
-    router.replace("/(tabs)"); // Using replace instead of push
+    console.log("Attempting to navigate to tabs"); 
+    router.replace("/(tabs)"); 
   };
   return (
     <View style={styles.container}>

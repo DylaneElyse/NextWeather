@@ -26,13 +26,10 @@ export type Database = {
         };
       };
       Views: {
-        // Add view types if needed
       };
       Functions: {
-        // Add function types if needed
       };
       Enums: {
-        // Add enum types if needed
       };
     };
   };

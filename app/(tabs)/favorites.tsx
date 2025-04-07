@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Text, View, StyleSheet, Button, FlatList, ActivityIndicator, TouchableOpacity, RefreshControl } from "react-native";
-import Header from "../../components/header"; // Adjust path if needed
-import { useAuth } from "../../contexts/AuthContext"; // Adjust path if needed
-import { supabase } from "../../lib/supabase"; // Adjust path if needed
+import Header from "../../components/header"; 
+import { useAuth } from "../../contexts/AuthContext"; 
+import { supabase } from "../../lib/supabase"; 
 import { router, useFocusEffect } from "expo-router";
-import citiesData from "../../assets/worldcities current.json"; // Adjust path if needed
+import citiesData from "../../assets/worldcities current.json";
 
 // Type for the structure of items in our final list
 type FavoriteDetail = {
@@ -25,11 +25,9 @@ type RawFavorite = {
 type CityLookupMap = Map<string, { city: string; country: string }>;
 
 // Helper function to create a consistent key from lat/lng
-// Using fixed precision helps match coordinates accurately
 const createCoordKey = (lat: number | string, lng: number | string): string => {
     const numLat = typeof lat === 'string' ? parseFloat(lat) : lat;
     const numLng = typeof lng === 'string' ? parseFloat(lng) : lng;
-    // Use enough precision to be unique but avoid minor float issues
     return `${numLat.toFixed(6)},${numLng.toFixed(6)}`;
 };
 
@@ -41,8 +39,7 @@ export default function FavoritesScreen() {
   const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false); // For pull-to-refresh
 
-  // --- Optimize City Data Lookup ---
-  // useMemo ensures this heavy computation runs only once
+  
   const cityLookup = useMemo<CityLookupMap>(() => {
     console.log("[FavoritesScreen] Creating city lookup map...");
     const map: CityLookupMap = new Map();
@@ -77,7 +74,7 @@ export default function FavoritesScreen() {
 
     console.log(`[fetchAndProcessFavorites] Fetching for user: ${user.id}`);
     setError(null); // Clear previous errors
-    // Set loading true only if not already refreshing (to avoid UI jump)
+    // Set loading true only if not already refreshing
     if(!isRefreshing) setIsLoading(true);
 
     try {
@@ -125,10 +122,8 @@ export default function FavoritesScreen() {
                lat: fav.favorite_lat,
                lng: fav.favorite_long,
              };
-            // return null; // To filter out unmatched entries
           }
         })
-        // .filter(fav => fav !== null) as FavoriteDetail[]; // Uncomment if filtering out nulls
 
       console.log("[fetchAndProcessFavorites] Processed favorites:", detailedFavorites);
       setFavorites(detailedFavorites);
@@ -143,22 +138,6 @@ export default function FavoritesScreen() {
       console.log("[fetchAndProcessFavorites] Fetch/process finished.");
     }
   }, [user, cityLookup, isRefreshing]); // Dependencies: user, the lookup map, and refresh state
-
-
-  // --- Effect to trigger fetch on mount or when user changes ---
-  // useEffect(() => {
-  //   // Fetch only if authentication is done and user exists
-  //   if (!isAuthLoading && user) {
-  //     fetchAndProcessFavorites();
-  //   } else if (!isAuthLoading && !user) {
-  //       // If auth is done but user is null, clear state
-  //       setIsLoading(false);
-  //       setFavorites([]);
-  //       setError(null);
-  //   }
-  //   // Intentionally excluding fetchAndProcessFavorites from deps here
-  //   // because its own deps cover changes. Including it might cause extra runs.
-  // }, [user, isAuthLoading]);
 
   useFocusEffect(
     useCallback(() => {
@@ -176,12 +155,8 @@ export default function FavoritesScreen() {
         setIsLoading(false); // Ensure loading is off
       } else {
           console.log("[useFocusEffect] Auth still loading, skipping fetch.");
-          // Optionally keep the loading indicator true if auth is still loading
-          // setIsLoading(true);
       }
 
-      // Optional: Return a cleanup function if needed (e.g., to cancel fetches)
-      // return () => console.log("[useFocusEffect] Favorites Screen blurred.");
 
     }, [isAuthLoading, user, fetchAndProcessFavorites]) // Dependencies for the effect callback
   );
@@ -191,12 +166,9 @@ export default function FavoritesScreen() {
   const onRefresh = useCallback(() => {
     console.log("[onRefresh] Pull to refresh triggered.");
     setIsRefreshing(true); // Set refreshing state for indicator
-    // Fetch function already depends on 'isRefreshing', no need to pass args
     fetchAndProcessFavorites();
   }, [fetchAndProcessFavorites]);
 
-
-  // --- Render Logic ---
 
   // Handle Auth Loading State
   if (isAuthLoading) {
@@ -260,8 +232,6 @@ export default function FavoritesScreen() {
         <View style={styles.centeredMessageContainer}>
           <Text style={styles.messageText}>You haven't added any favorites yet.</Text>
             <Text style={styles.messageText}>Use the search screen to add some!</Text>
-            {/* Optionally add a button to navigate to search */}
-            {/* <Button title="Find Cities" onPress={() => router.push('/SearchScreen')} /> */}
         </View>
       ) : (
         // Display the list of favorites
@@ -277,7 +247,7 @@ export default function FavoritesScreen() {
                 // Navigate back to weather screen with selected favorite's details
                 console.log("Navigating to weather for:", item.city);
                 router.push({
-                  pathname: "/", // Assuming "/" is your main weather screen
+                  pathname: "/", 
                   params: { searchedCityLat: item.lat, searchedCityLng: item.lng, searchedCityName: item.city },
                 });
               }}
@@ -286,7 +256,6 @@ export default function FavoritesScreen() {
                 <Text style={styles.cityText}>{item.city}</Text>
                 <Text style={styles.countryText}>{item.country}</Text>
               </View>
-              {/* Optional: Add an icon like a chevron > */}
                <Text style={styles.chevron}>{">"}</Text>
             </TouchableOpacity>
           )}

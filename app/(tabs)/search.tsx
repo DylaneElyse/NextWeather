@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Text, View, StyleSheet, Button, TextInput, FlatList, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
-import Header from "../../components/header"; // Adjust path if needed
+import Header from "../../components/header"; 
 import { router } from "expo-router";
-import citiesData from "../../assets/worldcities current.json"; // Adjust path if needed
+import citiesData from "../../assets/worldcities current.json"; 
 import { FontAwesome } from '@expo/vector-icons';
-import { useAuth } from "../../contexts/AuthContext"; // Adjust path if needed
-import { supabase } from "../../lib/supabase"; // Adjust path if needed
+import { useAuth } from "../../contexts/AuthContext"; 
+import { supabase } from "../../lib/supabase";
 
 // --- Helper function to normalize strings (remove diacritics, lowercase) ---
 const normalizeString = (str: string): string => {
@@ -15,19 +15,16 @@ const normalizeString = (str: string): string => {
     .replace(/[\u0300-\u036f]/g, '') // Remove the combining diacritical marks
     .toLowerCase(); // Convert to lowercase
 };
-// --- End Helper Function ---
 
-// --- Updated City type to include normalized name ---
 type City = {
   city: string;
-  normalizedCity: string; // Added for searching
+  normalizedCity: string;
   lat: string;
   lng: string;
   admin_name: string;
   country: string;
   id: string;
 };
-// --- End Updated City Type ---
 
 // Helper function to create a unique key string from lat/lng
 const createLatLngKey = (lat: string | number, lng: string | number): string | null => {
@@ -51,9 +48,8 @@ export default function SearchScreen() {
   const [isFetchingFavorites, setIsFetchingFavorites] = useState(false);
   const [togglingFavoriteCityId, setTogglingFavoriteCityId] = useState<string | null>(null);
 
-  // --- Fetch initial favorites (Unchanged) ---
+  // --- Fetch initial favorites ---
   const fetchUserFavorites = useCallback(async () => {
-    // ... (keep the existing fetchUserFavorites function exactly as it was)
     console.log("[fetchUserFavorites] Starting fetch...");
     if (!user) {
       console.log("[fetchUserFavorites] No user found, clearing local favorites.");
@@ -108,9 +104,7 @@ export default function SearchScreen() {
         setFavoriteLatLongs(new Set());
     }
   }, [user, fetchUserFavorites]);
-  // --- End Fetch Favorites ---
 
-  // --- Updated useEffect to load cities AND pre-calculate normalized names ---
   useEffect(() => {
     console.log("[useEffect Cities] Loading and normalizing cities data...");
     if (Array.isArray(citiesData)) {
@@ -132,10 +126,8 @@ export default function SearchScreen() {
        console.error("[useEffect Cities] citiesData is not an array:", citiesData);
        setCities([]);
     }
-  }, []); // Still runs only once on mount
-  // --- End Updated useEffect ---
+  }, []); 
 
-  // --- Updated handleSearch to use normalized strings ---
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     const normalizedQuery = normalizeString(query); // Normalize the input query
@@ -150,9 +142,7 @@ export default function SearchScreen() {
         setFilteredCities([]);
     }
   };
-  // --- End Updated handleSearch ---
 
-  // --- handleSelectCity (Unchanged, but relies on City type which is updated) ---
   const handleSelectCity = (city: City) => {
      console.log("[handleSelectCity] Navigating with city:", city.city);
       setSearchQuery(city.city); // Display the original name in the search bar
@@ -162,12 +152,9 @@ export default function SearchScreen() {
           params: { searchedCityLat: city.lat, searchedCityLng: city.lng, searchedCityName: city.city },
       });
   };
-  // --- End handleSelectCity ---
 
 
-  // --- handleFavoriteToggle (Unchanged, uses original City object) ---
   const handleFavoriteToggle = async (city: City) => {
-    // ... (keep the existing handleFavoriteToggle function exactly as it was)
     console.log("--- [handleFavoriteToggle] START ---");
     console.log("[handleFavoriteToggle] City:", city.city, "ID:", city.id, "Coords:", city.lat, city.lng);
 
@@ -178,7 +165,7 @@ export default function SearchScreen() {
         "You need to be logged in to manage favorites.",
         [
           { text: "Cancel", style: "cancel" },
-          { text: "Login", onPress: () => router.push('/LoginScreen') } // Ensure this route exists
+          { text: "Login", onPress: () => router.push('/LoginScreen') } 
         ]
       );
       return;
@@ -273,10 +260,8 @@ export default function SearchScreen() {
       setTogglingFavoriteCityId(null);
     }
   };
-  // --- End handleFavoriteToggle ---
 
 
-  // --- renderSuggestionItem (Unchanged, displays original city name) ---
   const renderSuggestionItem = ({ item }: { item: City }) => {
     const itemLatLngKey = createLatLngKey(item.lat, item.lng);
     const isFavorite = itemLatLngKey ? favoriteLatLongs.has(itemLatLngKey) : false;
@@ -317,17 +302,15 @@ export default function SearchScreen() {
       </TouchableOpacity>
     );
   };
-  // --- End renderSuggestionItem ---
 
 
-  // --- Main Component Return (Updated "Go" button logic slightly) ---
   return (
     <View style={styles.pageContainer}>
       <Header />
        <View style={styles.searchBox}>
            <TextInput
                style={styles.input}
-               placeholder="Search for a city" // Updated placeholder
+               placeholder="Search for a city" 
                placeholderTextColor="#666"
                value={searchQuery}
                onChangeText={handleSearch}
@@ -341,29 +324,21 @@ export default function SearchScreen() {
              <Button
                title="Go"
                 onPress={() => {
-                    // --- Updated Go Button Logic ---
                     const normalizedQuery = normalizeString(searchQuery);
-                    // Find the *first* city whose normalized name *exactly* matches the normalized query
                     const selectedCity = cities.find(c => c.normalizedCity === normalizedQuery);
                     if (selectedCity) {
                         handleSelectCity(selectedCity);
                     } else if (filteredCities.length > 0) {
-                        // If no exact match, but there are suggestions, maybe select the first suggestion?
-                        // Or just let the user tap from the list. For now, alert if no exact match found.
                          Alert.alert("Select from List", `No exact match for "${searchQuery}". Please select a city from the suggestions.`);
-                         // Optionally auto-select the first suggestion:
-                         // handleSelectCity(filteredCities[0]);
                     } else {
                         Alert.alert("Not Found", `City "${searchQuery}" not found.`);
                     }
-                    // --- End Updated Go Button Logic ---
                }}
                disabled={isAuthLoading || isFetchingFavorites || !searchQuery} // Disable if no query
              />
            )}
          </View>
 
-      {/* Suggestion List (Unchanged) */}
       {filteredCities.length > 0 && (
         <FlatList
           data={filteredCities}
@@ -377,9 +352,7 @@ export default function SearchScreen() {
     </View>
   );
 }
-// --- End Main Component Return ---
 
-// --- Styles (Unchanged) ---
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
@@ -452,4 +425,3 @@ const styles = StyleSheet.create({
         flex: 1,
     },
 });
-// --- End Styles ---

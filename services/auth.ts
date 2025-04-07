@@ -42,13 +42,11 @@ export const handleAuthError = (error: AuthError): string => {
       return error.message || 'An authentication error occurred';
   }
 };
-// ... [keep all your existing interfaces and functions] ...
 
 const authService = {
   signInWithEmail,
   handleAuthError,
   
-  // Future methods can be added here
   signOut: async () => {
     const { error } = await supabase.auth.signOut();
     return { error };
@@ -56,6 +54,5 @@ const authService = {
 };
 
 export default authService;
-// Error handling example
 
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, TouchableOpacity, Image } from "react-native";
 import Header from "../../components/header";
 import { useAuth } from "../../contexts/AuthContext";
@@ -20,7 +20,7 @@ export default function SettingsScreen() {
         if (!user) return;
   
         const { data, error } = await supabase
-          .from("user_details") // Ensure this is the correct table name
+          .from("user_details") 
           .select("Username")
           .eq("uuid", user.id) // Match the user ID
           .maybeSingle();
@@ -37,7 +37,7 @@ export default function SettingsScreen() {
   
   const handleSignOut = async () => {
     await signOut();
-    router.replace("/LoginScreen"); // 🔥 Redirect to login after signing out
+    router.replace("/LoginScreen"); // Redirect to login after signing out
   };
 
   if (!user) {

@@ -3,7 +3,6 @@ export type RootStackParamList = {
     Login: undefined;
     Register: undefined;
     Home: undefined;
-    // Add other screens here
   };
 
   const TypesDummy = () => null;

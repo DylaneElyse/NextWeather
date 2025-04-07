@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import CityHeader from "../../components/CityHeader";
 import HourlyWeatherLabel from "../../components/HourlyWeatherLabel";
 import ForecastLabel from "../../components/ForecastLabel";
@@ -7,7 +7,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useTemperature } from "../../contexts/TemperatureContext";
 import Header from "../../components/header";
 import { WEATHER_API_KEY } from "@env";
-import { formatMonthDate, formatDay, formatHour } from "../../components/getDayAndTime";
+import { formatMonthDate, formatHour } from "../../components/getDayAndTime";
 import CurrentWeatherOverview from "../../components/currentWeatherOverview";
 
 export default function HomeScreen() {
@@ -185,10 +185,10 @@ export default function HomeScreen() {
 
   const fetchWeather = async (searchedCityLat: any, searchedCityLng: any) => {
     try {
-      const API_KEY = WEATHER_API_KEY; // Replace with your API key
+      const API_KEY = WEATHER_API_KEY; 
       const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${searchedCityLat},${searchedCityLng}&days=7`;
 
-    console.log("Fetching weather from:", url); // ✅ Debug API URL
+    console.log("Fetching weather from:", url); // Debug API URL
     
     const response = await fetch(url);
   

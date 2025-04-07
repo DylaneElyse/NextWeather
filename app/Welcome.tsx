@@ -52,11 +52,6 @@ export default function WelcomeScreen() {
     <View style={styles.pageContainer}>
       <Header />
       <View style={styles.container}>
-        {/* <Text style={{ fontSize: 30, fontWeight: "bold", marginBottom: 80 }}>
-          Welcome, {username}
-        </Text>
-        <Text>Email: {user?.email}</Text>
-        <Text style={{ marginBottom: 200 }}>User ID: {user?.id}</Text> */}
         <Button title="Continue" onPress={handleContinueToHomepage} />
         <View style={{ marginTop: 50 }}></View>
         <Button title="Sign Out" onPress={handleSignOut} color={"red"} />
